@@ -21,13 +21,7 @@ const LoginScreen = () => {
     }, [])
 
     const handleSignUp = () => {
-        auth
-            .createUserWithEmailAndPassword(email, password)
-            .then(userCredentials => {
-                const user = userCredentials.user;
-
-            })
-            .catch(error => alert(error.message))
+        navigation.replace("RegistrationForm")
     }
 
     const handleLogin = () => {
