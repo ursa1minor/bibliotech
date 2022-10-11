@@ -2,92 +2,102 @@ import { useNavigation } from '@react-navigation/core'
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, TextInput, View } from 'react-native'
 import { firebase } from '../config'
-import { v4 as uuidv4 } from 'uuid';
+
 
 const RegistrationForm = () => {
 
     const auth = firebase.auth()
-    const db = firebase.database()
+    const db = firebase.firestore()
     const [username, setUsername] = useState('')
     const [location, setLocation] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
+
 
     const navigation = useNavigation()
 
+    const ref = db.collection('users').doc()
+
     const handleRegister = () => {
-        auth
-        .createUserWithEmailAndPassword(email, password)
-        .then(user => {
-                user.uid = uuidv4()
-                db.ref('users/' + user.uid).set({
-                    email: email,
-                    username: username,
-                    location: location
-                })
+        if (username.trim() !== '') {
+
+
+            auth
+                .createUserWithEmailAndPassword(email, password)
                 .then(() => {
-                    if (user.username && user.email && user.location) {
-                        navigation.replace("Home")
-                    } else {
-                        if (!username.trim()) {
-                            alert('Please Enter Username');
-                            return;
-                            }
-                        if (!location.trim()) {
-                            alert('Please Enter Location');
-                            return;
-                            }
-                    }
+
+                    firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).set({
+                        email: email,
+                        username: username,
+                        location: location,
+                        booksBorrowed: 0,
+                        booksForLend: 0,
+                        firstName: firstName,
+                        lastName: lastName
+
+                    })
+                    navigation.replace("Home")
                 })
-            })
-            .catch(error => alert(error.message))
+
+                .catch(error => alert(error.message))
+        } else {
+            alert('please enter a valid username')
+        }
+
+
     }
 
-    // if (!username.trim()) {
-    //     alert('Please Enter Username');
-    //     return;
-    //   }
 
-    // if (!location.trim()) {
-    //     alert('Please Enter Location');
-    //     return;
-    //   }
 
 
     return (
         <View style={styles.container}>
             <TextInput
-                    placeholder="Email"
-                    value={email}
-                    onChangeText={text => setEmail(text)}
-                    style={styles.input}
-                />
-            <TextInput
-                    placeholder="Password"
-                    value={password}
-                    onChangeText={text => setPassword(text)}
-                    style={styles.input}
-                    secureTextEntry
-                />
-            <TextInput
-                    placeholder="Username"
-                    value={username}
-                    onChangeText={text => setUsername(text)}
-                    style={styles.input}
+                placeholder="Email"
+                value={email}
+                onChangeText={text => setEmail(text)}
+                style={styles.input}
             />
             <TextInput
-                    placeholder="Location"
-                    value={location}
-                    onChangeText={text => setLocation(text)}
-                    style={styles.input}
+                placeholder="Password"
+                value={password}
+                onChangeText={text => setPassword(text)}
+                style={styles.input}
+                secureTextEntry
             />
-            <Text>Go away!!</Text>
+            <TextInput
+                placeholder="Username"
+                value={username}
+                onChangeText={text => setUsername(text)}
+                style={styles.input}
+                required />
+            <TextInput
+                placeholder="Location"
+                value={location}
+                onChangeText={text => setLocation(text)}
+                style={styles.input}
+            />
+            <TextInput
+                placeholder="First name"
+                value={firstName}
+                onChangeText={text => setFirstName(text)}
+                style={styles.input}
+                required />
+            <TextInput
+                placeholder="Last name"
+                value={lastName}
+                onChangeText={text => setLastName(text)}
+                style={styles.input}
+            />
+
 
             <TouchableOpacity
-                    onPress={handleRegister}
-                    style={styles.button}
+                onPress={handleRegister}
+                style={styles.button}
             >
-                    <Text style={styles.buttonText}>Complete Registration</Text>
+                <Text style={styles.buttonText}>Complete Registration</Text>
             </TouchableOpacity>
         </View>
     )
@@ -114,5 +124,14 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: '700',
         fontSize: 16,
+    },
+    input: {
+        backgroundColor: 'white',
+        paddingHorizontal: 15,
+        paddingVertical: 10,
+        borderRadius: 10,
+        marginTop: 5,
+
+
     },
 })
