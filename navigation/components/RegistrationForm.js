@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/core'
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, TextInput, View } from 'react-native'
-import { firebase } from '../config'
+import { firebase } from '../../config'
 
 
 const RegistrationForm = () => {
@@ -18,7 +18,17 @@ const RegistrationForm = () => {
 
     const navigation = useNavigation()
 
-    const ref = db.collection('users').doc()
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged(user => {
+            if (user) {
+                navigation.replace("Home")
+            }
+        })
+
+        return unsubscribe
+    }, [])
+
 
     const handleRegister = () => {
         if (username.trim() !== '') {
@@ -38,7 +48,7 @@ const RegistrationForm = () => {
                         lastName: lastName
 
                     })
-                    navigation.replace("Home")
+
                 })
 
                 .catch(error => alert(error.message))
