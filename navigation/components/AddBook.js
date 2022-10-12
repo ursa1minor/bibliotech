@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 
 const AddBook = ({ navigation }) => {
     return (
-        <View atyle={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Text
                 onPress={() => navigation.navigate('Home')}
                 style={{ fontSize: 26, fontWeight: 'bold' }}

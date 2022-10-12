@@ -19,7 +19,9 @@ const Tab = createBottomTabNavigator();
 
 const MainContainer = () => {
     return (
+
         <NavigationContainer independent={true}>
+
             <Tab.Navigator
                 initialRouteName={homeName}
                 screenOptions={({ route }) => ({
@@ -48,6 +50,8 @@ const MainContainer = () => {
                 <Tab.Screen name={addBookName} component={AddBook} />
                 <Tab.Screen name={profileName} component={Profile} />
             </Tab.Navigator>
+
+
         </NavigationContainer>
     );
 };

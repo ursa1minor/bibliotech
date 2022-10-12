@@ -1,5 +1,4 @@
 import { useNavigation } from '@react-navigation/core'
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View, SafeAreaView, ActivityIndicator } from 'react-native'
 import { firebase } from '../../config'
@@ -9,8 +8,6 @@ import List from './AvailableBooksList'
 const HomeScreen = () => {
     const auth = firebase.auth()
     const navigation = useNavigation()
-
-
     const [searchPhrase, setSearchPhrase] = useState("");
     const [clicked, setClicked] = useState(false);
     const [fakeData, setFakeData] = useState();
@@ -19,7 +16,7 @@ const HomeScreen = () => {
         auth
             .signOut()
             .then(() => {
-                navigation.replace("Login")
+                navigation.navigate('App')
             })
             .catch(error => alert(error.message))
     }
@@ -38,17 +35,12 @@ const HomeScreen = () => {
         <View>
             <View style={styles.container}>
 
-                <Text>Email: {auth.currentUser?.email}</Text>
                 <TouchableOpacity
                     onPress={handleSignOut}
                     style={styles.button}
                 >
                     <Text style={styles.buttonText}>Sign out</Text>
                 </TouchableOpacity>
-
-
-
-
 
             </View>
             <SafeAreaView style={styles.root}>
@@ -71,7 +63,6 @@ const HomeScreen = () => {
                 )}
             </SafeAreaView>
         </View>
-
     );
 
 }

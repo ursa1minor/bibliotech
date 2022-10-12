@@ -3,7 +3,6 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './navigation/components/LoginScreen';
-import HomeScreen from './navigation/components/HomeScreen';
 import RegistrationForm from './navigation/components/RegistrationForm';
 import MainContainer from './navigation/MainContainer';
 import Fetch from './src/Fetch';
@@ -15,25 +14,20 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen
           options={{ headerShown: false }}
-          name="Login"
+          name="LoginScreen"
           component={LoginScreen}
         />
         <Stack.Screen
           options={{ headerShown: false }}
-          name="Home"
-          component={HomeScreen}
+          name="MainContainer"
+          component={MainContainer}
         />
         <Stack.Screen
           options={{ headerShown: false }}
           name="RegistrationForm"
           component={RegistrationForm} />
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="Nav"
-          component={MainContainer}
-        />
+
       </Stack.Navigator>
-      <MainContainer />
     </NavigationContainer>
   );
 }

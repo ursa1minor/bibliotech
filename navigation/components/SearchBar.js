@@ -12,14 +12,12 @@ const SearchBar = ({ clicked, searchPhrase, setSearchPhrase, setClicked }) => {
                         : styles.searchBar__unclicked
                 }
             >
-                {/* search Icon */}
                 <Feather
                     name="search"
                     size={20}
                     color="black"
                     style={{ marginLeft: 1 }}
                 />
-                {/* Input field */}
                 <TextInput
                     style={styles.input}
                     placeholder="Search"
@@ -29,7 +27,6 @@ const SearchBar = ({ clicked, searchPhrase, setSearchPhrase, setClicked }) => {
                         setClicked(true);
                     }}
                 />
-                {/* cross Icon, depending on whether the search bar is clicked or not */}
                 {clicked && (
                     <Entypo
                         name="cross"
@@ -42,7 +39,6 @@ const SearchBar = ({ clicked, searchPhrase, setSearchPhrase, setClicked }) => {
                     />
                 )}
             </View>
-            {/* cancel button, depending on whether the search bar is clicked or not */}
             {clicked && (
                 <View>
                     <Button
@@ -59,7 +55,6 @@ const SearchBar = ({ clicked, searchPhrase, setSearchPhrase, setClicked }) => {
 };
 export default SearchBar;
 
-// styles
 const styles = StyleSheet.create({
     container: {
         margin: 15,

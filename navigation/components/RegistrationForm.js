@@ -14,15 +14,12 @@ const RegistrationForm = () => {
     const [password, setPassword] = useState('')
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
-
-
     const navigation = useNavigation()
-
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
             if (user) {
-                navigation.replace("Home")
+                navigation.replace("MainContainer")
             }
         })
 
@@ -32,7 +29,6 @@ const RegistrationForm = () => {
 
     const handleRegister = () => {
         if (username.trim() !== '') {
-
 
             auth
                 .createUserWithEmailAndPassword(email, password)
@@ -55,12 +51,7 @@ const RegistrationForm = () => {
         } else {
             alert('please enter a valid username')
         }
-
-
     }
-
-
-
 
     return (
         <View style={styles.container}>
@@ -101,8 +92,6 @@ const RegistrationForm = () => {
                 onChangeText={text => setLastName(text)}
                 style={styles.input}
             />
-
-
             <TouchableOpacity
                 onPress={handleRegister}
                 style={styles.button}
