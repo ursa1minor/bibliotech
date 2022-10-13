@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/core'
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, TextInput, View } from 'react-native'
-import { firebase } from '../config'
+import { firebase } from '../../config'
 
 
 const RegistrationForm = () => {
@@ -14,15 +14,21 @@ const RegistrationForm = () => {
     const [password, setPassword] = useState('')
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
-
-
     const navigation = useNavigation()
 
-    const ref = db.collection('users').doc()
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged(user => {
+            if (user) {
+                navigation.replace("MainContainer")
+            }
+        })
+
+        return unsubscribe
+    }, [])
+
 
     const handleRegister = () => {
         if (username.trim() !== '') {
-
 
             auth
                 .createUserWithEmailAndPassword(email, password)
@@ -38,19 +44,14 @@ const RegistrationForm = () => {
                         lastName: lastName
 
                     })
-                    navigation.replace("Home")
+
                 })
 
                 .catch(error => alert(error.message))
         } else {
             alert('please enter a valid username')
         }
-
-
     }
-
-
-
 
     return (
         <View style={styles.container}>
@@ -91,8 +92,6 @@ const RegistrationForm = () => {
                 onChangeText={text => setLastName(text)}
                 style={styles.input}
             />
-
-
             <TouchableOpacity
                 onPress={handleRegister}
                 style={styles.button}
