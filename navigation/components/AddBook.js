@@ -49,19 +49,15 @@ export default function AddBook({ navigation }) {
             >
                 <h1>Add Book</h1> </Text>
 
+                <TextInput value={title} onChangeText={(title) => {setTitle(title)}} placeholder="Title" ></TextInput>
+
                 <TextInput value={authorFirstName} onChangeText={(authorFirstName) => {setAuthorFirstName(authorFirstName)}} placeholder="Author first name " ></TextInput>
 
                 <TextInput value={authorSurname} onChangeText={(authorSurname) => {setAuthorSurname(authorSurname)}} placeholder="Author surname" ></TextInput>
 
-                <TextInput value={available} onChangeText={(available) => {setAvailable(available)}} placeholder="Cover image " ></TextInput>
-
-                <TextInput value={cover_img} onChangeText={(cover_img) => {setCover_img(cover_img)}} placeholder="Cover image " ></TextInput>
-
                 <TextInput value={location} onChangeText={(location) => {setLocation(location)}} placeholder="Location " ></TextInput>
 
-                <TextInput value={numberOfReviews} onChangeText={(numberOfReviews) => {setNumberOfReviews(0)}} placeholder="Cover image " ></TextInput>
-
-                <TextInput value={title} onChangeText={(title) => {setTitle(title)}} placeholder="Title" ></TextInput>
+                <br></br>
 
                 <button onClick={create}>Submit Data </button>
 
