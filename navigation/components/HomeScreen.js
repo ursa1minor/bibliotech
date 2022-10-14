@@ -14,21 +14,37 @@ import List from './AvailableBooksList';
 
 const HomeScreen = () => {
 	const auth = firebase.auth();
+	const db = firebase.firestore();
+	const booksRef = db.collection('books')
 	const navigation = useNavigation();
 	const [searchPhrase, setSearchPhrase] = useState('');
 	const [clicked, setClicked] = useState(false);
-	const [fakeData, setFakeData] = useState();
+	const [bookList, setBookList] = useState([]);
+
+
 
 	useEffect(() => {
-		const getData = async () => {
-			const apiResponse = await fetch(
-				'https://my-json-server.typicode.com/kevintomas1995/logRocket_searchBar/languages'
-			);
-			const data = await apiResponse.json();
-			setFakeData(data);
-		};
-		getData();
-	}, []);
+		booksRef
+			.onSnapshot(
+				snapshot => {
+					const books = []
+					snapshot.forEach((doc) => {
+
+						const { title, authorFirstName, authorSurname } = doc.data()
+
+						books.push({
+							id: doc.id,
+							title,
+							authorFirstName,
+							authorSurname
+						})
+					})
+					setBookList(books)
+
+				}
+			)
+	}, [searchPhrase]);
+	console.log(searchPhrase)
 	return (
 		<View>
 			<SafeAreaView style={styles.root}>
@@ -40,12 +56,13 @@ const HomeScreen = () => {
 					clicked={clicked}
 					setClicked={setClicked}
 				/>
-				{!fakeData ? (
+				{!bookList ? (
 					<ActivityIndicator size="large" />
 				) : (
 					<List
+						keyExtractor={(item, index) => item.id}
 						searchPhrase={searchPhrase}
-						data={fakeData}
+						data={bookList}
 						setClicked={setClicked}
 					/>
 				)}
