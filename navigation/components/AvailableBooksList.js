@@ -1,6 +1,8 @@
 
 import React from "react";
-import { StyleSheet, Text, View, FlatList, SafeAreaView } from "react-native";
+import { useNavigation } from '@react-navigation/core'
+import { StyleSheet, Text, View, FlatList, SafeAreaView, Pressable } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const Item = ({ name, details }) => (
     <View style={styles.item}>
@@ -9,24 +11,45 @@ const Item = ({ name, details }) => (
     </View>
 );
 
+
 const List = ({ searchPhrase, setClicked, data }) => {
+    const navigation = useNavigation();
+    const handleSignUp = () => {
+        navigation.navigate("Profile")
+    }
     const renderItem = ({ item }) => {
+
         if (searchPhrase === "") {
-            return <Item name={item.name} details={item.details} />;
+            return (<TouchableOpacity
+                onPress={handleSignUp}>
+
+                <Item name={item.title} details={item.authorFirstName} />
+            </TouchableOpacity>
+            )
         }
         if (
-            item.name
+            item.title
                 .toUpperCase()
                 .includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ""))
         ) {
-            return <Item name={item.name} details={item.details} />;
+            return (<TouchableOpacity
+                onPress={handleSignUp}>
+
+                <Item name={item.title} details={item.authorFirstName} />
+            </TouchableOpacity>
+            )
         }
         if (
-            item.details
+            item.authorFirstName
                 .toUpperCase()
                 .includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ""))
         ) {
-            return <Item name={item.name} details={item.details} />;
+            return (<TouchableOpacity
+                onPress={handleSignUp}>
+
+                <Item name={item.title} details={item.authorFirstName} />
+            </TouchableOpacity>
+            )
         }
     };
 
@@ -38,9 +61,9 @@ const List = ({ searchPhrase, setClicked, data }) => {
                 }}
             >
                 <FlatList
+                    keyExtractor={(item, index) => item.id}
                     data={data}
                     renderItem={renderItem}
-                    keyExtractor={(item) => item.id}
                 />
             </View>
         </SafeAreaView>
@@ -66,4 +89,21 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         fontStyle: "italic",
     },
+    container: {
+        backgroundColor: '#e5e5e5',
+        padding: 15,
+        borderRadius: 15,
+        margin: 5,
+        marginHorizontal: 10,
+    },
+    innerContainer: {
+        alignItems: 'center',
+        flexDirection: 'column',
+    },
+    itemHeading: {
+        fontWeight: 'bold'
+    },
+    itemText: {
+        fontWeight: '300'
+    }
 });
