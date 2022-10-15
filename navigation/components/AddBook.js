@@ -6,6 +6,7 @@ import {
   onPress,
   StyleSheet,
   Button,
+  TouchableOpacity
 } from "react-native";
 import { useNavigation } from '@react-navigation/core'
 import React, { Component, useEffect, useState } from "react";
@@ -33,7 +34,23 @@ export default function AddBook({ navigation }) {
     const db = firebase.firestore()
 
     const [searchTerms, setSearchTerms] = useState("");
-    const [searchResults, setSearchResults] = useState([]);
+    const [searchResults, setSearchResults] = useState([
+      {
+        title: "Meteors",
+        author: "Melissa Stewart",
+        publishedDate: "2015" 
+      },
+      {
+        title: "Meteors and Meteorites",
+        author: "Martin Beech",
+        publishedDate: "2006" 
+      },
+      {
+        title: "Field Guid to Meteors and Meteorites",
+        author: "O. Richard Norton",
+        publishedDate: "2008" 
+      },
+    ]);
     const [chosenBook, setChosenBook] = useState({});
     const bookList = [];
 
@@ -68,7 +85,7 @@ export default function AddBook({ navigation }) {
         .catch((err) => {});
     }, [searchTerms, chosenBook]);
 
-    function create () {
+    function createBook () {
 
         addDoc(collection(db, "books"), {
           authorFirstName: authorFirstName,
@@ -85,7 +102,9 @@ export default function AddBook({ navigation }) {
         });
         };
         
-        
+    function chooseBook () {
+
+    }   
 
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -95,7 +114,31 @@ export default function AddBook({ navigation }) {
         >
           <h1>Add Book</h1>{" "}
         </Text>
+      
+        <TextInput
+          value={searchTerms}
+          onChangeText={(searchTerms) => {
+            setSearchTerms(searchTerms);
+          }}
+          style={styles.textBoxes}
+          placeholder="Search:"
+        ></TextInput>
+        {searchResults.map((book, index) => {
+          return (
+            <View key={index}>
+            <TouchableOpacity style={[styles.button, styles.buttonOutline]} onPress={() => setChosenBook(book)}>
+              <Text style={styles.buttonOutlineText}> {book.title}</Text>
+              <Text style={styles.buttonOutlineText}>{book.author}</Text>
+              <Text style={styles.buttonOutlineText}>{book.publishedDate}
+              <br></br></Text>
+            </TouchableOpacity>
 
+            </View>
+          );
+        })}
+
+
+<View>      
         <TextInput
           value={title}
           onChangeText={(title) => {
@@ -130,27 +173,10 @@ export default function AddBook({ navigation }) {
 
         <br></br>
 
-        <button onClick={create}>Submit Data </button>
+        <button onClick={createBook}>Submit Data </button>
+        </View>
 
-        <TextInput
-          value={searchTerms}
-          onChangeText={(searchTerms) => {
-            setSearchTerms(searchTerms);
-          }}
-          style={styles.textBoxes}
-          placeholder="Search:"
-        ></TextInput>
-        {searchResults.map((book, index) => {
-          return (
-            <View key={index}>
-              <br></br>
-              <Text onPress={() => setChosenBook(book)}> {book.title}</Text>
-              <Text>{book.author}</Text>
-              <Text>{book.publishedDate}</Text>
-              <br></br>
-            </View>
-          );
-        })}
+
         <StatusBar style="auto" />
         <br></br>
       </View>
@@ -159,10 +185,27 @@ export default function AddBook({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "pink",
-    alignItems: "center",
-    justifyContent: "center",
-  },
+    justifyContent: 'center',
+    alignItems: 'center',
+},
+inputContainer: {
+    width: '100%'
+},
+input: {
+    backgroundColor: 'white',
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 10,
+    marginTop: 5,
+},
+buttonContainer: {
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 40,
+    marginBottom: 40
+   
+},
 
   textBoxes: {
     width: "90%",
@@ -172,4 +215,28 @@ const styles = StyleSheet.create({
     borderWidth: 0.2,
     borderRadius: 10,
   },
+
+button: {
+    backgroundColor: '#0782F9',
+    width: '100%',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+},
+buttonOutline: {
+    backgroundColor: 'white',
+    marginTop: 5,
+    borderColor: '#0782F9',
+    borderWidth: 2,
+},
+buttonText: {
+    color: 'white',
+    fontWeight: '700',
+    fontSize: 16,
+},
+buttonOutlineText: {
+    color: '#0782F9',
+    fontWeight: '700',
+    fontSize: 16,
+},
 });
