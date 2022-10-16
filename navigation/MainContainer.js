@@ -7,12 +7,13 @@ import MyBooks from './components/MyBooks';
 import AddBook from './components/AddBook';
 import Profile from './components/Profile';
 import Home from './components/HomeScreen';
+import SingleBook from './components/SingleBook';
 
-//screen names
-const homeName = 'Home';
-const myBooksName = 'My Books';
-const addBookName = 'Add Book';
-const profileName = 'Profile';
+const home = 'Home';
+const myBooks = 'My Books';
+const addBook = 'Add Book';
+const profile = 'Profile';
+const singleBook = 'Single book'
 
 const Tab = createBottomTabNavigator();
 
@@ -20,7 +21,7 @@ const MainContainer = () => {
 	return (
 		<NavigationContainer independent={true}>
 			<Tab.Navigator
-				initialRouteName={homeName}
+				initialRouteName={home}
 				screenOptions={({ route }) => ({
 					headerShown: false,
 
@@ -32,13 +33,13 @@ const MainContainer = () => {
 						let iconName;
 						let routeName = route.name;
 
-						if (routeName === homeName) {
+						if (routeName === home) {
 							iconName = focused ? 'home' : 'home-outline';
-						} else if (routeName === myBooksName) {
+						} else if (routeName === myBooks) {
 							iconName = focused ? 'library' : 'library-outline';
-						} else if (routeName === addBookName) {
+						} else if (routeName === addBook) {
 							iconName = focused ? 'add-circle' : 'add-circle-outline';
-						} else if (routeName === profileName) {
+						} else if (routeName === profile) {
 							iconName = focused ? 'person' : 'person-outline';
 						}
 
@@ -47,10 +48,12 @@ const MainContainer = () => {
 					tabBarLabelPosition: 'below-icon',
 				})}
 			>
-				<Tab.Screen name={homeName} component={Home} />
-				<Tab.Screen name={myBooksName} component={MyBooks} />
-				<Tab.Screen name={addBookName} component={AddBook} />
-				<Tab.Screen name={profileName} component={Profile} />
+				<Tab.Screen name={home} component={Home} />
+				<Tab.Screen name={myBooks} component={MyBooks} />
+				<Tab.Screen name={addBook} component={AddBook} />
+				<Tab.Screen name={profile} component={Profile} />
+				<Tab.Screen name={singleBook} component={SingleBook} />
+
 			</Tab.Navigator>
 		</NavigationContainer>
 	);

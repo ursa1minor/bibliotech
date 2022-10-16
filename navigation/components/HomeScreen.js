@@ -29,14 +29,12 @@ const HomeScreen = () => {
 				snapshot => {
 					const books = []
 					snapshot.forEach((doc) => {
-
-						const { title, authorFirstName, authorSurname } = doc.data()
-
+						const { title, author, available } = doc.data()
 						books.push({
 							id: doc.id,
 							title,
-							authorFirstName,
-							authorSurname
+							author,
+							available
 						})
 					})
 					setBookList(books)
@@ -44,7 +42,7 @@ const HomeScreen = () => {
 				}
 			)
 	}, [searchPhrase]);
-	console.log(searchPhrase)
+
 	return (
 		<View>
 			<SafeAreaView style={styles.root}>
