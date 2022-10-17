@@ -16,7 +16,6 @@ const List = ({ searchPhrase, setClicked, data }) => {
     const navigation = useNavigation();
 
     const renderItem = ({ item }) => {
-
         if (searchPhrase === "" && item.available === true) {
             return (<TouchableOpacity
                 onPress={() => navigation.navigate('Single book', { id: item.id })}>
