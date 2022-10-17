@@ -14,40 +14,36 @@ const Item = ({ name, details }) => (
 
 const List = ({ searchPhrase, setClicked, data }) => {
     const navigation = useNavigation();
-    const handleSignUp = () => {
-        navigation.navigate("Profile")
-    }
+
     const renderItem = ({ item }) => {
-
-        if (searchPhrase === "") {
+        if (searchPhrase === "" && item.available === true) {
             return (<TouchableOpacity
-                onPress={handleSignUp}>
+                onPress={() => navigation.navigate('Single book', { id: item.id })}>
 
-                <Item name={item.title} details={item.authorFirstName} />
+                <Item name={item.title} details={item.author} />
             </TouchableOpacity>
             )
         }
         if (
             item.title
                 .toUpperCase()
-                .includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ""))
-        ) {
-            return (<TouchableOpacity
-                onPress={handleSignUp}>
+                .includes(searchPhrase.toUpperCase().trim())
+            && item.available === true) {
+            return (<TouchableOpacity onPress={() => navigation.navigate('Single book', { id: item.id })}>
 
-                <Item name={item.title} details={item.authorFirstName} />
+                <Item name={item.title} details={item.author} />
             </TouchableOpacity>
             )
         }
         if (
-            item.authorFirstName
+            item.author
                 .toUpperCase()
-                .includes(searchPhrase.toUpperCase().trim().replace(/\s/g, ""))
+                .includes(searchPhrase.toUpperCase().trim())
+            && item.available === true
         ) {
-            return (<TouchableOpacity
-                onPress={handleSignUp}>
+            return (<TouchableOpacity onPress={() => navigation.navigate('Single book', { id: item.id })}>
 
-                <Item name={item.title} details={item.authorFirstName} />
+                <Item name={item.title} details={item.author} />
             </TouchableOpacity>
             )
         }

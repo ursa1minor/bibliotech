@@ -4,6 +4,7 @@ import { firebase } from '../../config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Profile = () => {
+
 	const handleSignOut = () => {
 		auth
 			.signOut()
