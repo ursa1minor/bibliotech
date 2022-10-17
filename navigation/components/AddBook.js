@@ -27,12 +27,12 @@ export default function AddBook() {
   const [searchTerms, setSearchTerms] = useState("");
   const [searchResults, setSearchResults] = useState([
       {
-        title: "Meteors",
-        author: "Melissa Stewart",
+        title: "The Name of the Rose",
+        author: "Umberto Eco",
       },
       {
-        title: "Meteorite Impact!",
-        author: "Wolf Uwe Reimold",
+        title: "The Anubis Gates",
+        author: "Tim Powers",
       },
       {
         title: "Meteor Showers",
@@ -45,6 +45,7 @@ export default function AddBook() {
       axios
         .get(`https://www.googleapis.com/books/v1/volumes?q=${searchTerms}`)
         .then(({ data }) => {
+          console.log(data.items[0])
           
           setSearchResults([
             {
@@ -76,6 +77,8 @@ export default function AddBook() {
         })
         .catch((err) => {});
     }, [searchTerms, chosenBook]);
+
+    console.log(chosenBook)
     
     function chooseBook () {
      
@@ -138,19 +141,10 @@ export default function AddBook() {
         <View>
         <TouchableOpacity 
           style={[styles.button, styles.buttonOutline]}
-          onPress={() => chooseBook(chosenBook)}>
-          <Text style={styles.buttonOutlineText}> Choose Book </Text>
+          onPress={() => {chooseBook(chosenBook); navigation.navigate("My Books")}}>
+          <Text style={styles.buttonOutlineText}> Choose Book : {chosenBook.title} </Text>
         </TouchableOpacity>
         </View>
-
-        <View >
-                <TouchableOpacity
-                    onPress={inputBookManually}
-                    style={[styles.button, styles.buttonOutline]}
-                >
-                    <Text style={styles.buttonOutlineText}>Add Book Manually</Text>
-                </TouchableOpacity>
-            </View>
 
         <StatusBar style="auto" />
       </View>
