@@ -10,6 +10,7 @@ const SingleBook = ({ route }) => {
     const [book, setBook] = React.useState({});
 
 
+    const navigation = useNavigation()
 
     React.useEffect(() => {
         db.collection('books')
@@ -20,8 +21,12 @@ const SingleBook = ({ route }) => {
             });
     }, [id]);
 
+    const handleBack = () => {
+        navigation.replace("Add Book")
+    }
 
     return (<View style={styles.container}>
+        <Text style={styles.title}> Book added</Text>
         <View >
 
             <Image
@@ -35,10 +40,10 @@ const SingleBook = ({ route }) => {
         <Text>{book.description}</Text>
         <View style={styles.buttonContainer}>
             <TouchableOpacity
-                // onPress={}
+                onPress={handleBack}
                 style={styles.button}
             >
-                <Text style={styles.buttonText}>Request book</Text>
+                <Text style={styles.buttonText}>Add more books</Text>
             </TouchableOpacity>
         </View>
 

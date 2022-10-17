@@ -10,20 +10,20 @@ const addBook = 'Add Book';
 const Stack = createNativeStackNavigator();
 export const AddBookstack = () => {
     return (
-        <NavigationContainer>
-            <Stack.Navigator>
-                <Stack.Screen
-                    options={{ headerShown: false }}
-                    name={addBook} component={AddBook}
 
-                />
-                <Stack.Screen
-                    options={{ headerShown: false }}
-                    name={singleBook} component={SingleBook}
-                />
+        <Stack.Navigator>
+            <Stack.Screen
+                options={{ headerShown: false }}
+                name={addBook} component={AddBook}
 
-            </Stack.Navigator>
-        </NavigationContainer>
+            />
+            <Stack.Screen
+                options={{ headerShown: false }}
+                name={singleBook} component={SingleBook}
+            />
+
+        </Stack.Navigator>
+
     )
 }
 

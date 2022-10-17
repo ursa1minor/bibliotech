@@ -53,7 +53,7 @@ const MainContainer = () => {
 				<Tab.Screen name={myBooks} component={MyBooks} />
 				<Tab.Screen name={bookStack} component={AddBookstack} />
 				<Tab.Screen name={profile} component={Profile} />
-				<Tab.Screen name={singleBook} component={SingleBook} />
+
 
 			</Tab.Navigator>
 		</NavigationContainer>
