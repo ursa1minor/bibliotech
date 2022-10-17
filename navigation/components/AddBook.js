@@ -1,48 +1,34 @@
-// import * as React from 'react';
-import {
-  View,
-  Text,
-  Pressable,
-  onPress,
-  StyleSheet,
-  Button,
-  TouchableOpacity
-} from "react-native";
-import { useNavigation } from '@react-navigation/core'
+import { View, Text, Pressable, onPress, StyleSheet, Button, TouchableOpacity} from  "react-native";
 import React, { Component, useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import axios from "axios";
+import { useNavigation } from '@react-navigation/core';
+import { TextInput, RefreshControl } from 'react-native-web'; 
 
-
-import { TextInput, RefreshControl } from 'react-native-web'; //Added
-// import { useState } from 'react/cjs/react.development';
-
-import { addDoc, collection } from "firebase/firestore"; //Added from Firebase
+import { addDoc, collection } from "firebase/firestore"; 
 import { firebase } from '../../config';
 
-export default function AddBook({ navigation }) {
+export default function AddBook() {
+  
+  const db = firebase.firestore()
+  const navigation = useNavigation();
 
-    const [author, setAuthor] = useState('');
-    const [available, setAvailable] = useState(true);
-    const [cover_img, setCover_img] = useState('');
-    const [numberOfReviews, setNumberOfReviews] = useState(0);
-    const [title, setTitle] = useState('');
-    const [location, setLocation] = useState('Manchester');
-    const [user_id, setUser_id] = useState(firebase.auth().currentUser.uid);
-    const [description, setDescription] = useState('');
-    const [categories, setCategories] = useState([]);
+  const [author, setAuthor] = useState('');
+  const [available, setAvailable] = useState(true);
+  const [cover_img, setCover_img] = useState('');
+  const [numberOfReviews, setNumberOfReviews] = useState(0);
+  const [title, setTitle] = useState('');
+  
+  const [user_id, setUser_id] = useState(firebase.auth().currentUser.uid);
+  const [location, setLocation] = useState('Manchester');
+  const [description, setDescription] = useState('');
+  const [categories, setCategories] = useState([]);
 
-    const db = firebase.firestore()
-
-    const [searchTerms, setSearchTerms] = useState("");
-    const [searchResults, setSearchResults] = useState([
+  const [searchTerms, setSearchTerms] = useState("");
+  const [searchResults, setSearchResults] = useState([
       {
         title: "Meteors",
         author: "Melissa Stewart",
-      },
-      {
-        title: "Meteors and Meteorites",
-        author: "Martin Beech",
       },
       {
         title: "Meteorite Impact!",
@@ -59,12 +45,7 @@ export default function AddBook({ navigation }) {
       axios
         .get(`https://www.googleapis.com/books/v1/volumes?q=${searchTerms}`)
         .then(({ data }) => {
-          console.log(data.items[0], "<-data.items[0]")
-          console.log(data.items[0].volumeInfo.title, '<-data.items[0].volumeInfo.title');
-          // console.log(data.items[0].volumeInfo.authors);
-          // console.log(data.items[0].volumeInfo.publishedDate);
-          // console.log(data.items[0].volumeInfo.description);
-
+          
           setSearchResults([
             {
               title: data.items[0].volumeInfo.title,
@@ -89,46 +70,22 @@ export default function AddBook({ navigation }) {
               description: data.items[2].volumeInfo.description,
               categories: data.items[2].volumeInfo.categories,
               cover_img: data.items[2].volumeInfo.imageLinks.smallThumbnail
-            },
-            {
-              title: data.items[3].volumeInfo.title,
-              author: data.items[3].volumeInfo.authors[0],
-              publishedDate: data.items[3].volumeInfo.publishedDate,
-              description: data.items[3].volumeInfo.description,
-              categories: data.items[3].volumeInfo.categories,
-              cover_img: data.items[3].volumeInfo.imageLinks.smallThumbnail
-            },
+            }
+           
           ]);
         })
         .catch((err) => {});
     }, [searchTerms, chosenBook]);
-
-    function createBook () {
-
-        addDoc(collection(db, "books"), {
-          author: author,
-          available: available,
-          cover_img: cover_img,
-          numberOfReviews: numberOfReviews,
-          title: title,
-          user_id: user_id
-        }).then(() => {
-          console.log('data submitted');
-        }).catch((error) => {
-          console.log(error);
-        });
-        };
     
     function chooseBook () {
-      console.log(chosenBook.author, '<-chosenBook.author, in chooseBook')
      
       addDoc(collection(db, "books"), {
         title: chosenBook.title,
         author: chosenBook.author, 
+        publishedDate: chosenBook.publishedDate,
+        description: chosenBook.description,
         categories: chosenBook.categories,
         cover_img: chosenBook.cover_img,
-        description: chosenBook.description,
-        publishedDate: chosenBook.publishedDate,
         user_id: user_id,
         available: available,
         numberOfReviews: numberOfReviews,
@@ -140,11 +97,17 @@ export default function AddBook({ navigation }) {
       });
     };   
 
+    const inputBookManually = () => {
+      navigation.navigate("AddBookManually")
+    }
+
     return (
+
+
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         <Text
           onPress={() => navigation.navigate("Home")}
-          style={{ fontSize: 26, fontWeight: "bold" }}
+          style={{ fontSize: 20, fontWeight: "bold" }}
         >
           <h1>Add Book</h1>{" "}
         </Text>
@@ -179,46 +142,21 @@ export default function AddBook({ navigation }) {
           <Text style={styles.buttonOutlineText}> Choose Book </Text>
         </TouchableOpacity>
         </View>
-        
-        <View>      
-        <TextInput
-          value={title}
-          onChangeText={(title) => {
-            setTitle(title);
-          }}
-          placeholder="Title"
-        ></TextInput>
 
-        <TextInput
-          value={author}
-          onChangeText={(author) => {
-            setAuthor(author);
-          }}
-          placeholder="Author surname"
-        ></TextInput>
-
-        <TextInput
-          value={location}
-          onChangeText={(location) => {
-            setLocation(location);
-          }}
-          placeholder="Location "
-        ></TextInput>
-
-        <br></br>
-
-        <TouchableOpacity 
-          style={[styles.button, styles.buttonOutline]}
-          onPress={createBook}>
-          <Text style={styles.buttonOutlineText}> Submit Data </Text>
-        </TouchableOpacity>
-        </View>
+        <View >
+                <TouchableOpacity
+                    onPress={inputBookManually}
+                    style={[styles.button, styles.buttonOutline]}
+                >
+                    <Text style={styles.buttonOutlineText}>Add Book Manually</Text>
+                </TouchableOpacity>
+            </View>
 
         <StatusBar style="auto" />
-        <br></br>
       </View>
     );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -240,11 +178,9 @@ buttonContainer: {
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 40,
-    marginBottom: 40
-   
+    marginBottom: 40 
 },
-
-  textBoxes: {
+textBoxes: {
     width: "90%",
     fontSize: 18,
     padding: 12,
@@ -252,7 +188,6 @@ buttonContainer: {
     borderWidth: 0.2,
     borderRadius: 10,
   },
-
 button: {
     backgroundColor: '#0782F9',
     width: '100%',
