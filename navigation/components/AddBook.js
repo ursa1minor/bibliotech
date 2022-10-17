@@ -18,6 +18,8 @@ export default function AddBook() {
   const [cover_img, setCover_img] = useState('');
   const [numberOfReviews, setNumberOfReviews] = useState(0);
   const [title, setTitle] = useState('');
+  const [borrower, setBorrower] = useState('');
+
 
   const [user_id, setUser_id] = useState(firebase.auth().currentUser.uid);
   const [location, setLocation] = useState('Manchester');
@@ -90,7 +92,8 @@ export default function AddBook() {
       user_id: user_id,
       available: available,
       numberOfReviews: numberOfReviews,
-      location: location
+      location: location,
+      borrower: borrower
     }).then((data) => {
       setSearchTerms('')
       navigation.navigate("Single book", { id: data.id })
