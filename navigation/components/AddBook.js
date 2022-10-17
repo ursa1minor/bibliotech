@@ -18,13 +18,13 @@ export default function AddBook() {
   const [cover_img, setCover_img] = useState('');
   const [numberOfReviews, setNumberOfReviews] = useState(0);
   const [title, setTitle] = useState('');
-  
-  const [user_id, setUser_id] = useState(firebase.auth().currentUser.uid);
-  const [location, setLocation] = useState('Manchester');
   const [description, setDescription] = useState('');
   const [categories, setCategories] = useState([]);
+  const [user_id, setUser_id] = useState(firebase.auth().currentUser.uid);
+  const [location, setLocation] = useState('Manchester');
+  const [borrower, setBorrower] = useState('');
 
-  const [searchTerms, setSearchTerms] = useState("");
+  const [searchTerms, setSearchTerms] = useState('');
   const [searchResults, setSearchResults] = useState([
       {
         title: "The Name of the Rose",
@@ -92,7 +92,8 @@ export default function AddBook() {
         user_id: user_id,
         available: available,
         numberOfReviews: numberOfReviews,
-        location: location
+        location: location,
+        borrower: borrower
       }).then(() => {
         console.log('data submitted');
       }).catch((error) => {
