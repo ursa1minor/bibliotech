@@ -15,38 +15,32 @@ import List from './AvailableBooksList';
 const HomeScreen = () => {
 	const auth = firebase.auth();
 	const db = firebase.firestore();
-	const booksRef = db.collection('books')
+	const booksRef = db.collection('books');
 	const navigation = useNavigation();
 	const [searchPhrase, setSearchPhrase] = useState('');
 	const [clicked, setClicked] = useState(false);
 	const [bookList, setBookList] = useState([]);
 
-
-
 	useEffect(() => {
-		booksRef
-			.onSnapshot(
-				snapshot => {
-					const books = []
-					snapshot.forEach((doc) => {
-						const { title, author, available } = doc.data()
-						books.push({
-							id: doc.id,
-							title,
-							author,
-							available
-						})
-					})
-					setBookList(books)
-
-				}
-			)
+		booksRef.onSnapshot((snapshot) => {
+			const books = [];
+			snapshot.forEach((doc) => {
+				const { title, author, available } = doc.data();
+				books.push({
+					id: doc.id,
+					title,
+					author,
+					available,
+				});
+			});
+			setBookList(books);
+		});
 	}, [searchPhrase]);
 
 	return (
 		<View>
 			<SafeAreaView style={styles.root}>
-				{!clicked && <Text style={styles.title}>Available Books</Text>}
+				<Text style={styles.title}>Available Books</Text>
 
 				<SearchBar
 					searchPhrase={searchPhrase}
@@ -91,7 +85,6 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 	},
 	root: {
-		justifyContent: 'center',
 		alignItems: 'center',
 	},
 	title: {

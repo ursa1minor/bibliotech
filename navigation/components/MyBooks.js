@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, Image } from 'react-native';
-import Header from '../components/Header';
 import { firebase } from '../../config';
 
 const MyBooks = ({ navigation }) => {
