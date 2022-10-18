@@ -3,17 +3,18 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import MyBooks from './components/MyBooks';
-import AddBook from './components/AddBook';
+import MyBooks from './components/MyBooks'
+
 import Profile from './components/Profile';
 import Home from './components/HomeScreen';
-import SingleBook from './components/SingleBook';
-
+import RequestBookstack from './RequestBookStack';
+import AddBookstack from './AddBookstack';
+const bookStack = 'Add Book'
 const home = 'Home';
 const myBooks = 'My Books';
 const addBook = 'Add Book';
 const profile = 'Profile';
-const singleBook = 'Single book'
+const requestBook = 'Request Book'
 
 const Tab = createBottomTabNavigator();
 
@@ -48,11 +49,11 @@ const MainContainer = () => {
 					tabBarLabelPosition: 'below-icon',
 				})}
 			>
-				<Tab.Screen name={home} component={Home} />
+				<Tab.Screen name={requestBook} component={RequestBookstack} />
 				<Tab.Screen name={myBooks} component={MyBooks} />
-				<Tab.Screen name={addBook} component={AddBook} />
+				<Tab.Screen name={bookStack} component={AddBookstack} />
 				<Tab.Screen name={profile} component={Profile} />
-				<Tab.Screen name={singleBook} component={SingleBook} />
+
 
 			</Tab.Navigator>
 		</NavigationContainer>

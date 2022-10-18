@@ -27,8 +27,10 @@ const List = ({ searchPhrase, setClicked, data }) => {
 		if (searchPhrase === '' && item.available === true) {
 			return (
 				<TouchableOpacity
+<
 					style={{ width: '100%' }}
 					onPress={() => navigation.navigate('Single book', { id: item.id })}
+
 				>
 					<Item
 						style={styles.item}
@@ -45,14 +47,30 @@ const List = ({ searchPhrase, setClicked, data }) => {
 		) {
 			return (
 				<TouchableOpacity
-					onPress={() => navigation.navigate('Single book', { id: item.id })}
+					onPress={() => navigation.navigate('Book Card', { id: item.id })}
 				>
+
 					<Item
 						style={styles.item}
 						name={item.title}
 						author={item.author}
 						cover_img={item.cover_img}
 					/>
+
+					<Item name={item.title} details={item.author} />
+				</TouchableOpacity>
+			);
+		}
+		if (
+			item.author.toUpperCase().includes(searchPhrase.toUpperCase().trim()) &&
+			item.available === true
+		) {
+			return (
+				<TouchableOpacity
+					onPress={() => navigation.navigate('Book Card', { id: item.id })}
+				>
+					<Item name={item.title} details={item.author} />
+
 				</TouchableOpacity>
 			);
 		}

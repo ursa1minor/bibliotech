@@ -4,7 +4,7 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { firebase } from '../../config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const SingleBook = ({ route }) => {
+const BookCard = ({ route }) => {
     const { id } = route.params
     const db = firebase.firestore();
     const [book, setBook] = React.useState({});
@@ -22,7 +22,7 @@ const SingleBook = ({ route }) => {
     }, [id]);
 
     const handleBack = () => {
-        navigation.replace("Add Book")
+        navigation.replace("Home")
     }
 
     return (<View style={styles.container}>
@@ -43,7 +43,7 @@ const SingleBook = ({ route }) => {
                 onPress={handleBack}
                 style={styles.button}
             >
-                <Text style={styles.buttonText}>Add more books</Text>
+                <Text style={styles.buttonText}>request book</Text>
             </TouchableOpacity>
         </View>
 
@@ -51,7 +51,7 @@ const SingleBook = ({ route }) => {
     )
 }
 
-export default SingleBook
+export default BookCard
 
 const styles = StyleSheet.create({
     profileImg: {

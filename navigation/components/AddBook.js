@@ -1,3 +1,4 @@
+
 import {
 	View,
 	Text,
@@ -216,4 +217,5 @@ const styles = StyleSheet.create({
 		fontWeight: '700',
 		fontSize: 16,
 	},
+
 });
