@@ -5,7 +5,6 @@ import {
 	Text,
 	View,
 	FlatList,
-	ScrollView,
 	Image,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -57,7 +56,6 @@ const List = ({ searchPhrase, setClicked, data }) => {
 						cover_img={item.cover_img}
 					/>
 
-					<Item name={item.title} details={item.author} />
 				</TouchableOpacity>
 			);
 		}
@@ -70,7 +68,13 @@ const List = ({ searchPhrase, setClicked, data }) => {
 					style={{ width: '100%' }}
 					onPress={() => navigation.navigate('Book Card', { id: item.id })}
 				>
-					<Item name={item.title} details={item.author} />
+
+				<Item
+					style={styles.item}
+					name={item.title}
+					author={item.author}
+					cover_img={item.cover_img}
+				/>
 
 				</TouchableOpacity>
 			);
@@ -82,6 +86,7 @@ const List = ({ searchPhrase, setClicked, data }) => {
 				onStartShouldSetResponder={() => {
 					setClicked(false);
 				}}
+				style={{width: '100%'}}
 			>
 				<FlatList
 					keyExtractor={(item) => item.id}
