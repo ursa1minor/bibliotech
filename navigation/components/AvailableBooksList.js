@@ -5,7 +5,6 @@ import {
 	Text,
 	View,
 	FlatList,
-	ScrollView,
 	Image,
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -45,6 +44,7 @@ const List = ({ searchPhrase, setClicked, data }) => {
 		) {
 			return (
 				<TouchableOpacity
+					style={{ width: '100%' }}
 					onPress={() => navigation.navigate('Book Card', { id: item.id })}
 				>
 					<Item
@@ -54,7 +54,6 @@ const List = ({ searchPhrase, setClicked, data }) => {
 						cover_img={item.cover_img}
 					/>
 
-					<Item name={item.title} details={item.author} />
 				</TouchableOpacity>
 			);
 		}
@@ -64,20 +63,32 @@ const List = ({ searchPhrase, setClicked, data }) => {
 		) {
 			return (
 				<TouchableOpacity
+					style={{ width: '100%' }}
 					onPress={() => navigation.navigate('Book Card', { id: item.id })}
 				>
+
 					<Item name={item.title} details={item.author} />
+=======
+
+				<Item
+					style={styles.item}
+					name={item.title}
+					author={item.author}
+					cover_img={item.cover_img}
+				/>
+
+
 				</TouchableOpacity>
 			);
 		}
 	};
 
 	return (
-		<ScrollView>
 			<View
 				onStartShouldSetResponder={() => {
 					setClicked(false);
 				}}
+				style={{width: '100%'}}
 			>
 				<FlatList
 					keyExtractor={(item) => item.id}
@@ -85,7 +96,6 @@ const List = ({ searchPhrase, setClicked, data }) => {
 					renderItem={renderItem}
 				/>
 			</View>
-		</ScrollView>
 	);
 };
 
@@ -97,7 +107,6 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		maxWidth: '90%',
 		minWidth: '90%',
-		// alignItems: 'center',
 	},
 	itemCard: {
 		marginLeft: '5%',
@@ -111,18 +120,25 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 2,
 		borderBottomColor: 'lightgrey',
 		marginBottom: '.5rem',
-		// flexShrink: 'none',
+		display: 'auto',
 	},
 	title: {
-		fontSize: 20,
+		fontSize: 17,
 		fontWeight: 'bold',
 		marginBottom: 5,
+	},
+	author: {
+		fontSize: 12,
+		textTransform: 'capitalize',
 	},
 	itemHeading: {
 		fontWeight: 'bold',
 	},
 	itemText: {
-		fontWeight: '300',
+		fontWeight: '100',
+	},
+	detailsWrapper: {
+		flexShrink: 1,
 	},
 	coverImage: {
 		marginTop: '1rem',

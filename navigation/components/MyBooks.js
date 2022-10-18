@@ -36,6 +36,7 @@ const MyBooks = ({ navigation }) => {
 		});
 	}, []);
 
+
 	const handleBorrowedBooks = () => {
 		booksRef.onSnapshot((snapshot) => {
 			const books = [];
@@ -76,6 +77,8 @@ const MyBooks = ({ navigation }) => {
 			setMyBookList(books);
 		});
 	};
+
+=======
 
 	return (
 		<View>
