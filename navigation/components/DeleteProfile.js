@@ -21,7 +21,7 @@ const DeleteProfile = () => {
                 user.delete()
 
                     .then(() => {
-                        navigation.replace('Profile')
+                        navigation.replace("LoginScreen")
                     })
             })
 
