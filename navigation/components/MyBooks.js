@@ -78,8 +78,6 @@ const MyBooks = ({ navigation }) => {
 		});
 	};
 
-=======
-
 	return (
 		<View>
 			<View style={styles.container}>

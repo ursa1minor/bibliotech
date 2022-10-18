@@ -27,7 +27,7 @@ const List = ({ searchPhrase, setClicked, data }) => {
 			return (
 				<TouchableOpacity
 					style={{ width: '100%' }}
-					onPress={() => navigation.navigate('Single book', { id: item.id })}
+					onPress={() => navigation.navigate('Book Card', { id: item.id })}
 				>
 					<Item
 						style={styles.item}
