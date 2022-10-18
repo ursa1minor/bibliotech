@@ -2,17 +2,13 @@
 import {
 	View,
 	Text,
-	Pressable,
-	onPress,
 	StyleSheet,
-	Button,
 	TouchableOpacity,
 } from 'react-native';
-import React, { Component, useEffect, useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/core';
-import { TextInput, RefreshControl } from 'react-native-web';
+import { TextInput } from 'react-native-web';
 
 import { addDoc, collection } from 'firebase/firestore';
 import { firebase } from '../../config';
@@ -35,16 +31,16 @@ export default function AddBook() {
 	const [searchTerms, setSearchTerms] = useState('');
 	const [searchResults, setSearchResults] = useState([
 		{
-			title: 'The Name of the Rose',
-			author: 'Umberto Eco',
+			title: 'Coding for Dummies',
+			author: 'Nikhil Abraham',
 		},
 		{
-			title: 'The Anubis Gates',
-			author: 'Tim Powers',
+			title: 'Diary of a Wombat',
+			author: 'Bruce Watley',
 		},
 		{
-			title: 'Meteor Showers',
-			author: 'Gary W Kronk',
+			title: 'Business Secrets of the Pharoahs',
+			author: 'Mark Corrigan',
 		},
 	]);
 	const [chosenBook, setChosenBook] = useState({});
@@ -116,8 +112,10 @@ export default function AddBook() {
 					setSearchTerms(searchTerms);
 				}}
 				style={styles.textBoxes}
-				placeholder="Search:"
+				placeholder="Enter book or author..."
 			></TextInput>
+      <br></br>
+      <Text>Select your book:</Text>
 
 			{searchResults.map((book, index) => {
 				return (
@@ -143,7 +141,7 @@ export default function AddBook() {
 				>
 					<Text style={styles.buttonOutlineText}>
 						{' '}
-						Choose Book: {chosenBook.title}{' '}
+						Make {chosenBook.title} available for lend
 					</Text>
 				</TouchableOpacity>
 			</View>
@@ -211,7 +209,7 @@ const styles = StyleSheet.create({
 	buttonOutlineText: {
 		color: '#0782F9',
 		fontWeight: '700',
-		fontSize: 16,
+		fontSize: 14,
 	},
 
 });
