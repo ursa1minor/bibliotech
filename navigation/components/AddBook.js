@@ -53,7 +53,6 @@ export default function AddBook() {
 		axios
 			.get(`https://www.googleapis.com/books/v1/volumes?q=${searchTerms}`)
 			.then(({ data }) => {
-				console.log(data.items[0]);
 
 				setSearchResults([
 					{
@@ -85,8 +84,6 @@ export default function AddBook() {
 			.catch((err) => {});
 	}, [searchTerms, chosenBook]);
 
-	console.log(chosenBook);
-
 	function chooseBook() {
 		addDoc(collection(db, 'books'), {
 			title: chosenBook.title,
@@ -111,7 +108,7 @@ export default function AddBook() {
 
 	return (
 		<View style={{ flex: 1, alignItems: 'center' }}>
-			<Text style={styles.title}>Add Book </Text>
+			<Text style={styles.title}>Add Book</Text>
 
 			<TextInput
 				value={searchTerms}
@@ -146,7 +143,7 @@ export default function AddBook() {
 				>
 					<Text style={styles.buttonOutlineText}>
 						{' '}
-						Choose Book : {chosenBook.title}{' '}
+						Choose Book: {chosenBook.title}{' '}
 					</Text>
 				</TouchableOpacity>
 			</View>
@@ -192,7 +189,6 @@ const styles = StyleSheet.create({
 		borderColor: 'gray',
 		borderWidth: 0.2,
 		borderRadius: 10,
-		// outlineColor: 'red',
 	},
 	button: {
 		backgroundColor: '#0782F9',
