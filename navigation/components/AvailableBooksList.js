@@ -26,6 +26,7 @@ const List = ({ searchPhrase, setClicked, data }) => {
 		if (searchPhrase === '' && item.available === true) {
 			return (
 				<TouchableOpacity
+
 					style={{ width: '100%' }}
 					onPress={() => navigation.navigate('Single book', { id: item.id })}
 				>
@@ -68,7 +69,6 @@ const List = ({ searchPhrase, setClicked, data }) => {
 				>
 
 					<Item name={item.title} details={item.author} />
-=======
 
 				<Item
 					style={styles.item}
