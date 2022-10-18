@@ -18,7 +18,7 @@ const SearchBar = ({ clicked, searchPhrase, setSearchPhrase, setClicked }) => {
 				/>
 				<TextInput
 					style={styles.input}
-					placeholder="Search"
+					placeholder="Enter book or author..."
 					value={searchPhrase}
 					onChangeText={setSearchPhrase}
 					onFocus={() => {
@@ -30,7 +30,7 @@ const SearchBar = ({ clicked, searchPhrase, setSearchPhrase, setClicked }) => {
 						name="cross"
 						size={20}
 						color="black"
-						style={{ padding: 1 }}
+						// style={{ padding: 1 }}
 						onPress={() => {
 							setSearchPhrase('');
 						}}
@@ -52,23 +52,23 @@ const styles = StyleSheet.create({
 	searchBar__unclicked: {
 		padding: 10,
 		flexDirection: 'row',
-		width: '95%',
+		width: '100%',
 		backgroundColor: '#d9dbda',
-		borderRadius: 15,
+		borderRadius: '.5rem',
 		alignItems: 'center',
 	},
 	searchBar__clicked: {
 		padding: 10,
 		flexDirection: 'row',
-		width: '95%',
+		width: '100%',
 		backgroundColor: '#d9dbda',
-		borderRadius: 15,
+		borderRadius: '.5rem',
 		alignItems: 'center',
-		justifyContent: 'space-evenly',
+		// justifyContent: 'space-evenly',
 	},
 	input: {
-		fontSize: 20,
-		marginLeft: 10,
-		width: '90%',
+		fontSize: 15,
+		marginLeft: '5%',
+		width: '100%',
 	},
 });
