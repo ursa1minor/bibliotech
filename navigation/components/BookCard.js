@@ -25,7 +25,6 @@ const BookCard = ({ route }) => {
     }
 
     return (<View style={styles.container}>
-        <Text style={styles.title}> Book added</Text>
         <View >
 
             <Image
