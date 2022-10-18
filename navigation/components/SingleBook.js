@@ -3,13 +3,14 @@ import { useNavigation } from '@react-navigation/core'
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { firebase } from '../../config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { doc, collection, updateDoc } from 'firebase/firestore';
 
 const SingleBook = ({ route }) => {
     const { id } = route.params
     const db = firebase.firestore();
     const [book, setBook] = React.useState({});
-
-
+    const [user, setUser] = React.useState(firebase.auth().currentUser.uid);
+  
     const navigation = useNavigation()
 
     React.useEffect(() => {
@@ -21,9 +22,30 @@ const SingleBook = ({ route }) => {
             });
     }, [id]);
 
-    const handleBack = () => {
-        navigation.replace("Add Book")
-    }
+//     const handleBorrow = () => {
+//         db.collection('books')
+//         .doc(id)
+//         .update({
+//         available: false,
+//         borrower: auth.currentUser?.uidU
+//     })
+//     navigation.replace("Home")
+// }
+    
+function borrowBook() {
+    updateDoc(doc(db, "books", id), {
+        available: false,
+        borrower: user
+    })
+    .then(() => {
+        console.log('data submitted');
+        navigation.replace("Home")
+    })
+    .catch((error) => {
+        console.log(error);
+    })
+    
+}
 
     return (<View style={styles.container}>
         <Text style={styles.title}> Book added</Text>
@@ -40,7 +62,7 @@ const SingleBook = ({ route }) => {
         <Text>{book.description}</Text>
         <View style={styles.buttonContainer}>
             <TouchableOpacity
-                onPress={handleBack}
+                onPress={borrowBook}
                 style={styles.button}
             >
                 <Text style={styles.buttonText}>Request</Text>
