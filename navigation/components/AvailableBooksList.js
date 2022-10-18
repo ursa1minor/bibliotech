@@ -28,7 +28,7 @@ const List = ({ searchPhrase, setClicked, data }) => {
 				<TouchableOpacity
 
 					style={{ width: '100%' }}
-					onPress={() => navigation.navigate('Book Card', { id: item.id })}
+					onPress={() => navigation.navigate('Single book', { id: item.id })}
 				>
 					<Item
 						style={styles.item}
@@ -46,7 +46,7 @@ const List = ({ searchPhrase, setClicked, data }) => {
 			return (
 				<TouchableOpacity
 					style={{ width: '100%' }}
-					onPress={() => navigation.navigate('Book Card', { id: item.id })}
+					onPress={() => navigation.navigate('Single book', { id: item.id })}
 				>
 					<Item
 						style={styles.item}
@@ -65,7 +65,7 @@ const List = ({ searchPhrase, setClicked, data }) => {
 			return (
 				<TouchableOpacity
 					style={{ width: '100%' }}
-					onPress={() => navigation.navigate('Book Card', { id: item.id })}
+					onPress={() => navigation.navigate('Single book', { id: item.id })}
 				>
 
 					<Item name={item.title} details={item.author} />
