@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TextInput, View, Keyboard, Button } from 'react-native';
+import { StyleSheet, TextInput, View } from 'react-native';
 import { Feather, Entypo } from '@expo/vector-icons';
 
 const SearchBar = ({ clicked, searchPhrase, setSearchPhrase, setClicked }) => {
@@ -30,7 +30,6 @@ const SearchBar = ({ clicked, searchPhrase, setSearchPhrase, setClicked }) => {
 						name="cross"
 						size={20}
 						color="black"
-						// style={{ padding: 1 }}
 						onPress={() => {
 							setSearchPhrase('');
 						}}
@@ -64,7 +63,6 @@ const styles = StyleSheet.create({
 		backgroundColor: '#d9dbda',
 		borderRadius: '.5rem',
 		alignItems: 'center',
-		// justifyContent: 'space-evenly',
 	},
 	input: {
 		fontSize: 15,

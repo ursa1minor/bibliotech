@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useNavigation } from '@react-navigation/core'
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { firebase } from '../../config';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const BookCard = ({ route }) => {
     const { id } = route.params
