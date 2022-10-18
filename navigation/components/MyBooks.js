@@ -27,7 +27,6 @@ const MyBooks = ({ navigation }) => {
 		});
 	}, []);
 
-	console.log(myBookList, '<<< mybook');
 	return (
 		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 			<ScrollView>

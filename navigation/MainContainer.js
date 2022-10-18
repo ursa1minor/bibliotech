@@ -9,12 +9,14 @@ import Profile from './components/Profile';
 import Home from './components/HomeScreen';
 import RequestBookstack from './RequestBookStack';
 import AddBookstack from './AddBookstack';
+import ProfileStack from './ProfileStack';
+
 const bookStack = 'Add Book'
 const home = 'Home';
 const myBooks = 'My Books';
-const addBook = 'Add Book';
-const profile = 'Profile';
-const requestBook = 'Request Book'
+
+const profileStack = 'My Profile '
+const requestBook = 'Browse Books'
 
 const Tab = createBottomTabNavigator();
 
@@ -34,13 +36,13 @@ const MainContainer = () => {
 						let iconName;
 						let routeName = route.name;
 
-						if (routeName === home) {
+						if (routeName === myBooks) {
 							iconName = focused ? 'home' : 'home-outline';
-						} else if (routeName === myBooks) {
+						} else if (routeName === requestBook) {
 							iconName = focused ? 'library' : 'library-outline';
-						} else if (routeName === addBook) {
+						} else if (routeName === bookStack) {
 							iconName = focused ? 'add-circle' : 'add-circle-outline';
-						} else if (routeName === profile) {
+						} else if (routeName === profileStack) {
 							iconName = focused ? 'person' : 'person-outline';
 						}
 
@@ -52,7 +54,7 @@ const MainContainer = () => {
 				<Tab.Screen name={requestBook} component={RequestBookstack} />
 				<Tab.Screen name={myBooks} component={MyBooks} />
 				<Tab.Screen name={bookStack} component={AddBookstack} />
-				<Tab.Screen name={profile} component={Profile} />
+				<Tab.Screen name={profileStack} component={ProfileStack} />
 
 
 			</Tab.Navigator>

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { firebase } from '../../config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useNavigation } from '@react-navigation/core';
 
 const Profile = () => {
 
@@ -9,11 +10,14 @@ const Profile = () => {
 		auth
 			.signOut()
 			.then(() => {
-				navigation.navigate('App');
+				navigation.replace("LoginScreen");
 			})
 			.catch((error) => alert(error.message));
 	};
-
+	const navToUpdate = () => {
+		navigation.replace("Update Profile")
+	}
+	const navigation = useNavigation();
 	const auth = firebase.auth();
 	const db = firebase.firestore();
 	const [userDetails, setUserDetails] = React.useState('');
@@ -54,6 +58,9 @@ const Profile = () => {
 				</View>
 			</View>
 			<View>
+				<TouchableOpacity style={styles.button} onPress={navToUpdate}>
+					<Text style={styles.textButton}>Update Profile</Text>
+				</TouchableOpacity>
 				<TouchableOpacity style={styles.button} onPress={handleSignOut}>
 					<Text style={styles.textButton}>Sign out</Text>
 				</TouchableOpacity>
