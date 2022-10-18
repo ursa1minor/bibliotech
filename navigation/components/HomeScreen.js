@@ -25,12 +25,13 @@ const HomeScreen = () => {
 		booksRef.onSnapshot((snapshot) => {
 			const books = [];
 			snapshot.forEach((doc) => {
-				const { title, author, available } = doc.data();
+				const { title, author, available, cover_img } = doc.data();
 				books.push({
 					id: doc.id,
 					title,
 					author,
 					available,
+					cover_img,
 				});
 			});
 			setBookList(books);
@@ -71,19 +72,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
-	button: {
-		backgroundColor: '#0782F9',
-		width: '60%',
-		padding: 15,
-		borderRadius: 10,
-		alignItems: 'center',
-		marginTop: 40,
-	},
-	buttonText: {
-		color: 'white',
-		fontWeight: '700',
-		fontSize: 16,
-	},
+
 	root: {
 		alignItems: 'center',
 	},
