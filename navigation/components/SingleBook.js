@@ -43,7 +43,7 @@ const SingleBook = ({ route }) => {
                 onPress={handleBack}
                 style={styles.button}
             >
-                <Text style={styles.buttonText}>Add more books</Text>
+                <Text style={styles.buttonText}>Request</Text>
             </TouchableOpacity>
         </View>
 

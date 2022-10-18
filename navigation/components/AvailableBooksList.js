@@ -27,7 +27,7 @@ const List = ({ searchPhrase, setClicked, data }) => {
 		if (searchPhrase === '' && item.available === true) {
 			return (
 				<TouchableOpacity
-<
+
 					style={{ width: '100%' }}
 					onPress={() => navigation.navigate('Single book', { id: item.id })}
 
