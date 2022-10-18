@@ -79,20 +79,20 @@ const MyBooks = ({ navigation }) => {
 	};
 
 	return (
+			<ScrollView>
 		<View>
 			<View style={styles.container}>
 				<View style={styles.innerContainerBooks}>
 					<TouchableOpacity style={styles.myBooks} onPress={handleMyBooks}>
-						<Text>My books</Text>
+						<Text>My Books</Text>
 					</TouchableOpacity>
 				</View>
 				<View style={styles.innerContainerBorrowed}>
 					<TouchableOpacity onPress={handleBorrowedBooks}>
-						<Text>Borrowed books</Text>
+						<Text>Borrowed Books</Text>
 					</TouchableOpacity>
 				</View>
 			</View>
-			<ScrollView>
 				{myBookList.map((book) => {
 					return (
 						<View style={styles.bookCard} key={book.id}>
@@ -101,8 +101,8 @@ const MyBooks = ({ navigation }) => {
 						</View>
 					);
 				})}
-			</ScrollView>
 		</View>
+			</ScrollView>
 	);
 };
 

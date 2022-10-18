@@ -12,6 +12,7 @@ const SingleBook = ({ route }) => {
     const db = firebase.firestore();
     const [book, setBook] = React.useState({});
     const [user, setUser] = React.useState(firebase.auth().currentUser.uid);
+    const shortDesc = book.description.slice(0, 50)
   
     const navigation = useNavigation()
 
@@ -51,17 +52,17 @@ function borrowBook() {
 
     return (<View style={styles.container}>
         <Text style={styles.title}> Book added</Text>
-        <View >
+        <View>
 
             <Image
                 style={styles.profileImg}
                 source={book.cover_img}
             />
 
-        </View >
+        </View>
         <Text style={styles.title}>{book.title} </Text>
         <Text style={styles.authorName}>{book.author}</Text>
-        <Text>{book.description}</Text>
+        <Text style={styles.description}>{shortDesc}</Text>
         <View style={styles.buttonContainer}>
             <TouchableOpacity
                 onPress={borrowBook}
@@ -89,6 +90,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    description: {
+        padding: '10px',
+        textAlign: 'justify',
+        fontFamily: 'Roboto',
+        fontSize: 18,
+        marginBottom: 0,
+        paddingBottom: 0,
+    },
     buttonContainer: {
         width: '60%',
         justifyContent: 'center',
@@ -98,6 +107,7 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#0782F9',
         width: '100%',
+        marginTop: 2,
         padding: 15,
         borderRadius: 10,
         alignItems: 'center',
