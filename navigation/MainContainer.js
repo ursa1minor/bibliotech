@@ -12,7 +12,7 @@ import AddBookstack from './AddBookstack';
 import ProfileStack from './ProfileStack';
 
 const bookStack = 'Add Book'
-const home = 'Home';
+const home = 'Book';
 const myBooks = 'My Books';
 
 const profileStack = 'My Profile '
@@ -37,7 +37,7 @@ const MainContainer = () => {
 						let routeName = route.name;
 
 						if (routeName === myBooks) {
-							iconName = focused ? 'home' : 'home-outline';
+							iconName = focused ? 'book' : 'book-outline';
 						} else if (routeName === requestBook) {
 							iconName = focused ? 'library' : 'library-outline';
 						} else if (routeName === bookStack) {
