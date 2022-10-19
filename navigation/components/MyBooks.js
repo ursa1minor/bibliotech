@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
 		marginBottom: 5,
 	},
 	author: {
-		fontSize: 12,
+		fontSize: 14,
 		textTransform: 'capitalize',
 	},
 	availability: {

@@ -1,12 +1,6 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/core';
-import {
-	StyleSheet,
-	Text,
-	View,
-	FlatList,
-	Image,
-} from 'react-native';
+import { StyleSheet, Text, View, FlatList, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Item = ({ name, author, cover_img }) => (
@@ -26,7 +20,6 @@ const List = ({ searchPhrase, setClicked, data }) => {
 		if (searchPhrase === '' && item.available === true) {
 			return (
 				<TouchableOpacity
-
 					style={{ width: '100%' }}
 					onPress={() => navigation.navigate('Book Card', { id: item.id })}
 				>
@@ -54,7 +47,6 @@ const List = ({ searchPhrase, setClicked, data }) => {
 						author={item.author}
 						cover_img={item.cover_img}
 					/>
-
 				</TouchableOpacity>
 			);
 		}
@@ -67,35 +59,32 @@ const List = ({ searchPhrase, setClicked, data }) => {
 					style={{ width: '100%' }}
 					onPress={() => navigation.navigate('Book Card', { id: item.id })}
 				>
-
 					<Item name={item.title} details={item.author} />
 
-				<Item
-					style={styles.item}
-					name={item.title}
-					author={item.author}
-					cover_img={item.cover_img}
-				/>
-
-
+					<Item
+						style={styles.item}
+						name={item.title}
+						author={item.author}
+						cover_img={item.cover_img}
+					/>
 				</TouchableOpacity>
 			);
 		}
 	};
 
 	return (
-			<View
-				onStartShouldSetResponder={() => {
-					setClicked(false);
-				}}
-				style={{width: '100%'}}
-			>
-				<FlatList
-					keyExtractor={(item) => item.id}
-					data={data}
-					renderItem={renderItem}
-				/>
-			</View>
+		<View
+			onStartShouldSetResponder={() => {
+				setClicked(false);
+			}}
+			style={{ width: '100%' }}
+		>
+			<FlatList
+				keyExtractor={(item) => item.id}
+				data={data}
+				renderItem={renderItem}
+			/>
+		</View>
 	);
 };
 
@@ -128,7 +117,7 @@ const styles = StyleSheet.create({
 		marginBottom: 5,
 	},
 	author: {
-		fontSize: 12,
+		fontSize: 14,
 		textTransform: 'capitalize',
 	},
 	itemHeading: {
