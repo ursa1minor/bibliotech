@@ -216,4 +216,7 @@ const styles = StyleSheet.create({
 		marginTop: 5,
 		color: '#808080',
 	},
+	detailsWrapper: {
+		flexShrink: 1,
+	},
 });

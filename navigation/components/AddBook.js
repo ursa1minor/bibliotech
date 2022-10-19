@@ -10,7 +10,6 @@ import { firebase } from '../../config';
 export default function AddBook() {
 	const db = firebase.firestore();
 	const navigation = useNavigation();
-
 	const [author, setAuthor] = useState('');
 	const [available, setAvailable] = useState(true);
 	const [cover_img, setCover_img] = useState('');
@@ -21,10 +20,9 @@ export default function AddBook() {
 	const [user_id, setUser_id] = useState(firebase.auth().currentUser.uid);
 	const [location, setLocation] = useState('Manchester');
 	const [borrower, setBorrower] = useState('');
-
-	const [isPending, setIsPending] = useState(false);
 	const [chosenIndex, setChosenIndex] = useState(4)
-	const [createdAt, setCreatedAt] = useState('');
+	const [pending, setPending] = useState(false);
+  const [createdAt, setCreatedAt] = useState('');
 	const [searchTerms, setSearchTerms] = useState('');
 	const [searchResults, setSearchResults] = useState([
 		{
@@ -89,6 +87,7 @@ export default function AddBook() {
 			numberOfReviews: numberOfReviews,
 			location: location,
 			borrower: borrower,
+			pending: pending,
 			createdAt: firebase.firestore.FieldValue.serverTimestamp(),
 
 		})

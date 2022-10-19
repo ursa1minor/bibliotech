@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import {
 	StyleSheet,
 	Text,
-	TouchableOpacity,
 	View,
 	SafeAreaView,
 	ActivityIndicator,
@@ -41,7 +40,7 @@ const HomeScreen = () => {
 	}, [searchPhrase]);
 
 	return (
-		<View>
+		<View style={styles.root}>
 			<SafeAreaView style={styles.root}>
 				<Text style={styles.title}>Available Books</Text>
 
@@ -55,7 +54,7 @@ const HomeScreen = () => {
 					<ActivityIndicator size="large" />
 				) : (
 					<List
-						keyExtractor={(item, index) => item.id}
+						keyExtractor={(item) => item.id}
 						searchPhrase={searchPhrase}
 						data={bookList}
 						setClicked={setClicked}
@@ -69,14 +68,11 @@ const HomeScreen = () => {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
 
 	root: {
 		alignItems: 'center',
+		flex: 1,
+		flexGrow: 1,
 	},
 	title: {
 		width: '100%',
