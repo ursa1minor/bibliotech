@@ -55,7 +55,7 @@ const SingleBook = ({ route }) => {
         </View>
         <Text style={styles.title}>{book.title} </Text>
         <Text style={styles.authorName}>{book.author}</Text>
-        <Text style={styles.description}>{book.description}</Text>
+        <Text numberOfLines={15} ellipsizeMode={'tail'} style={styles.description}>{book.description}</Text>
         <View style={styles.buttonContainer}>
             <TouchableOpacity
                 onPress={borrowBook}
