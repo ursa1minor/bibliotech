@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigation } from '@react-navigation/core';
 import { StyleSheet, Text, View, FlatList, Image, SafeAreaView } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { firebase } from '../../config'
 
 const Item = ({ name, author, cover_img }) => (
 	<View style={styles.itemCard}>
@@ -59,7 +60,7 @@ const List = ({ searchPhrase, setClicked, data }) => {
 				keyExtractor={(item) => item.id}
 				data={data}
 				renderItem={renderItem}
-				style={{ flex: 1 }}
+				style={{ width: '100%', flex: 1 }}
 			/>
 		</SafeAreaView>
 	);

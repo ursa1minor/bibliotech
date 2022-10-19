@@ -22,7 +22,7 @@ export default function AddBook() {
 	const [borrower, setBorrower] = useState('');
 	const [chosenIndex, setChosenIndex] = useState(4)
 	const [pending, setPending] = useState(false);
-  const [createdAt, setCreatedAt] = useState('');
+	const [createdAt, setCreatedAt] = useState('');
 	const [searchTerms, setSearchTerms] = useState('');
 	const [searchResults, setSearchResults] = useState([
 		{
@@ -105,7 +105,7 @@ export default function AddBook() {
 				onChangeText={(searchTerms) => {
 					setSearchTerms(searchTerms);
 				}}
-				style={styles.textBoxes}
+				style={styles.searchBar}
 				placeholder="Enter book or author..."
 			></TextInput>
 			<br></br>
@@ -210,5 +210,13 @@ const styles = StyleSheet.create({
 	textOptionsAuthor: {
 		fontSize: 14,
 		textTransform: 'capitalize',
+	},
+	searchBar: {
+		padding: 10,
+		flexDirection: 'row',
+		width: '85%',
+		backgroundColor: '#d9dbda',
+		borderRadius: '.5rem',
+		alignItems: 'center',
 	},
 });
