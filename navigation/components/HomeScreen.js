@@ -38,7 +38,7 @@ const HomeScreen = () => {
 	}, [searchPhrase]);
 
 	return (
-		<View>
+		<View style={styles.root}>
 			<SafeAreaView style={styles.root}>
 				<Text style={styles.title}>Available Books</Text>
 
@@ -69,6 +69,8 @@ const styles = StyleSheet.create({
 
 	root: {
 		alignItems: 'center',
+		flex: 1,
+		flexGrow: 1,
 	},
 	title: {
 		width: '100%',

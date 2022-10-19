@@ -50,12 +50,13 @@ const List = ({ searchPhrase, setClicked, data }) => {
 				onStartShouldSetResponder={() => {
 					setClicked(false);
 				}}
-				style={{width: '100%'}}
+				style={{width: '100%', flex: 1}}
 			>
 				<FlatList
 					keyExtractor={(item) => item.id}
 					data={data}
 					renderItem={renderItem}
+					style={{flex: 1}}
 				/>
 			</SafeAreaView>
 	);
