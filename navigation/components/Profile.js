@@ -2,21 +2,21 @@ import * as React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { firebase } from '../../config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/core';
 
 const Profile = () => {
-
 	const handleSignOut = () => {
 		auth
 			.signOut()
 			.then(() => {
-				navigation.replace("LoginScreen")
+				navigation.replace('LoginScreen');
 			})
 			.catch((error) => alert(error.message));
 	};
 	const navToUpdate = () => {
-		navigation.replace("Update Profile")
-	}
+		navigation.replace('Update Profile');
+	};
 	const navigation = useNavigation();
 	const auth = firebase.auth();
 	const db = firebase.firestore();
@@ -46,6 +46,12 @@ const Profile = () => {
 					<Ionicons name="md-location-sharp" style={styles.icon} />
 					<Text style={styles.location}>{userDetails.location}</Text>
 				</View>
+				<TouchableOpacity onPress={navToUpdate}>
+					<View style={styles.editWrapper}>
+						<Icon name="edit" style={styles.iconProfile} />
+						<Text style={styles.editProfile}>Edit profile</Text>
+					</View>
+				</TouchableOpacity>
 			</View>
 			<View style={styles.booksWrapper}>
 				<View style={styles.bookContainer}>
@@ -58,9 +64,6 @@ const Profile = () => {
 				</View>
 			</View>
 			<View>
-				<TouchableOpacity style={styles.button} onPress={navToUpdate}>
-					<Text style={styles.textButton}>Update Profile</Text>
-				</TouchableOpacity>
 				<TouchableOpacity style={styles.button} onPress={handleSignOut}>
 					<Text style={styles.textButton}>Sign out</Text>
 				</TouchableOpacity>
@@ -101,11 +104,34 @@ const styles = StyleSheet.create({
 		marginTop: '.5rem',
 		fontSize: '1rem',
 	},
+	editProfile: {
+		fontSize: '1rem',
+		fontWeight: '500',
+		color: '#808080',
+		paddingRight: '.3rem',
+		paddingBottom: '.3rem',
+		paddingTop: '.3rem',
+	},
+	editWrapper: {
+		flex: 1,
+		flexDirection: 'row',
+		marginTop: '2.4rem',
+		gap: '.2rem',
+		alignItems: 'center',
+		borderWidth: 2,
+		borderRadius: '.5rem',
+		borderColor: '#808080',
+	},
 	icon: {
 		fontSize: '1.2rem',
 	},
+	iconProfile: {
+		fontSize: '1.2rem',
+		color: '#808080',
+		paddingLeft: '.3rem',
+	},
 	booksWrapper: {
-		marginTop: '6rem',
+		marginTop: '4rem',
 		marginLeft: '1rem',
 		marginRight: '1rem',
 		flex: 1,
@@ -114,12 +140,13 @@ const styles = StyleSheet.create({
 		gap: '1rem',
 	},
 	bookContainer: {
+		height: '6rem',
 		flex: 1,
 		alignItems: 'center',
 		borderRadius: '.5rem',
 		borderWidth: '.1rem',
 		borderColor: '#E9E9E9',
-		backgroundColor: '#F6F6F6',
+		backgroundColor: '#F5F5F5',
 	},
 	books: {
 		paddingTop: '1rem',
@@ -131,9 +158,9 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 	},
 	button: {
+		marginTop: '-3rem',
 		marginLeft: '1rem',
 		marginRight: '1rem',
-		marginTop: '3rem',
 		alignItems: 'center',
 		paddingVertical: 12,
 		paddingHorizontal: 18,
