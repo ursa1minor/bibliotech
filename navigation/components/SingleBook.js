@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useNavigation } from '@react-navigation/core'
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { firebase } from '../../config';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -12,7 +12,6 @@ const SingleBook = ({ route }) => {
     const db = firebase.firestore();
     const [book, setBook] = React.useState({});
     const [user, setUser] = React.useState(firebase.auth().currentUser.uid);
-    const shortDesc = book.description.slice(0, 50)
   
     const navigation = useNavigation()
 
@@ -50,7 +49,8 @@ function borrowBook() {
     
 }
 
-    return (<View style={styles.container}>
+    return (<ScrollView>
+    <View style={styles.container}>
         <Text style={styles.title}> Book added</Text>
         <View>
 
@@ -62,7 +62,7 @@ function borrowBook() {
         </View>
         <Text style={styles.title}>{book.title} </Text>
         <Text style={styles.authorName}>{book.author}</Text>
-        <Text style={styles.description}>{shortDesc}</Text>
+        <Text style={styles.description}>{book.description}</Text>
         <View style={styles.buttonContainer}>
             <TouchableOpacity
                 onPress={borrowBook}
@@ -73,6 +73,7 @@ function borrowBook() {
         </View>
 
     </View>
+    </ScrollView>
     )
 }
 
