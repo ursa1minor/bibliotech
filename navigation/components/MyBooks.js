@@ -84,47 +84,46 @@ const MyBooks = () => {
 	};
 
 	return (
-			<ScrollView>
-		<View>
-			<View style={styles.container}>
-				<View
-					style={
-						isMyBooksActive
-							? styles.innerContainerActive
-							: styles.innerContainerInactive
-					}
-				>
-					<TouchableOpacity style={styles.myBooks} onPress={handleMyBooks}>
-						<Text>My Books</Text>
-						<Text
-							style={isMyBooksActive ? styles.textActive : styles.textInactive}
-						>
-							My books
-						</Text>
-
-					</TouchableOpacity>
+		<ScrollView>
+			<View>
+				<View style={styles.container}>
+					<View
+						style={
+							isMyBooksActive
+								? styles.innerContainerActive
+								: styles.innerContainerInactive
+						}
+					>
+						<TouchableOpacity style={styles.myBooks} onPress={handleMyBooks}>
+							<Text
+								style={
+									isMyBooksActive ? styles.textActive : styles.textInactive
+								}
+							>
+								My books
+							</Text>
+						</TouchableOpacity>
+					</View>
+					<View
+						style={
+							isMyBorrowedBooksActive
+								? styles.innerContainerActive
+								: styles.innerContainerInactive
+						}
+					>
+						<TouchableOpacity onPress={handleBorrowedBooks}>
+							<Text
+								style={
+									isMyBorrowedBooksActive
+										? styles.textActive
+										: styles.textInactive
+								}
+							>
+								Borrowed books
+							</Text>
+						</TouchableOpacity>
+					</View>
 				</View>
-				<View
-					style={
-						isMyBorrowedBooksActive
-							? styles.innerContainerActive
-							: styles.innerContainerInactive
-					}
-				>
-					<TouchableOpacity onPress={handleBorrowedBooks}>
-						<Text>Borrowed Books</Text>
-						<Text
-							style={
-								isMyBorrowedBooksActive
-									? styles.textActive
-									: styles.textInactive
-							}
-						>
-							Borrowed books
-						</Text>
-					</TouchableOpacity>
-				</View>
-			</View>
 				{myBookList.map((book) => {
 					return (
 						<View style={styles.bookCard} key={book.id}>
@@ -143,8 +142,8 @@ const MyBooks = () => {
 						</View>
 					);
 				})}
-		</View>
-			</ScrollView>
+			</View>
+		</ScrollView>
 	);
 };
 
