@@ -12,7 +12,7 @@ const SingleBook = ({ route }) => {
     const db = firebase.firestore();
     const [book, setBook] = React.useState({});
     const [user, setUser] = React.useState(firebase.auth().currentUser.uid);
-  
+
     const navigation = useNavigation()
 
     React.useEffect(() => {
@@ -24,30 +24,23 @@ const SingleBook = ({ route }) => {
             });
     }, [id]);
 
-//     const handleBorrow = () => {
-//         db.collection('books')
-//         .doc(id)
-//         .update({
-//         available: false,
-//         borrower: auth.currentUser?.uidU
-//     })
-//     navigation.replace("Home")
-// }
-    
-function borrowBook() {
-    updateDoc(doc(db, "books", id), {
-        available: false,
-        borrower: user
-    })
-    .then(() => {
-        console.log('data submitted');
-        navigation.replace("Home")
-    })
-    .catch((error) => {
-        console.log(error);
-    })
-    
-}
+    const navToHome = () => {
+        navigation.navigate("Home")
+    }
+
+    function borrowBook() {
+        updateDoc(doc(db, "books", id), {
+            available: false,
+            borrower: user
+        })
+            .then(() => {
+                navigation.navigate("Home")
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
+    }
 
     return (<ScrollView>
     <View style={styles.container}>
@@ -71,7 +64,14 @@ function borrowBook() {
                 <Text style={styles.buttonText}>Request</Text>
             </TouchableOpacity>
         </View>
-
+        <View style={styles.buttonContainer}>
+            <TouchableOpacity
+                onPress={navToHome}
+                style={styles.button}
+            >
+                <Text style={styles.buttonText}>Browse More books</Text>
+            </TouchableOpacity>
+        </View>
     </View>
     </ScrollView>
     )
