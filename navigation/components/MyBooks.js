@@ -84,6 +84,7 @@ const MyBooks = () => {
 	};
 
 	return (
+			<ScrollView>
 		<View>
 			<View style={styles.container}>
 				<View
@@ -94,11 +95,13 @@ const MyBooks = () => {
 					}
 				>
 					<TouchableOpacity style={styles.myBooks} onPress={handleMyBooks}>
+						<Text>My Books</Text>
 						<Text
 							style={isMyBooksActive ? styles.textActive : styles.textInactive}
 						>
 							My books
 						</Text>
+
 					</TouchableOpacity>
 				</View>
 				<View
@@ -109,6 +112,7 @@ const MyBooks = () => {
 					}
 				>
 					<TouchableOpacity onPress={handleBorrowedBooks}>
+						<Text>Borrowed Books</Text>
 						<Text
 							style={
 								isMyBorrowedBooksActive
@@ -121,7 +125,6 @@ const MyBooks = () => {
 					</TouchableOpacity>
 				</View>
 			</View>
-			<ScrollView>
 				{myBookList.map((book) => {
 					return (
 						<View style={styles.bookCard} key={book.id}>
@@ -140,8 +143,8 @@ const MyBooks = () => {
 						</View>
 					);
 				})}
-			</ScrollView>
 		</View>
+			</ScrollView>
 	);
 };
 

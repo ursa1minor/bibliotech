@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useNavigation } from '@react-navigation/core'
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { firebase } from '../../config';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -12,7 +12,7 @@ const SingleBook = ({ route }) => {
     const db = firebase.firestore();
     const [book, setBook] = React.useState({});
     const [user, setUser] = React.useState(firebase.auth().currentUser.uid);
-  
+
     const navigation = useNavigation()
 
     React.useEffect(() => {
@@ -24,44 +24,38 @@ const SingleBook = ({ route }) => {
             });
     }, [id]);
 
-//     const handleBorrow = () => {
-//         db.collection('books')
-//         .doc(id)
-//         .update({
-//         available: false,
-//         borrower: auth.currentUser?.uidU
-//     })
-//     navigation.replace("Home")
-// }
-    
-function borrowBook() {
-    updateDoc(doc(db, "books", id), {
-        available: false,
-        borrower: user
-    })
-    .then(() => {
-        console.log('data submitted');
-        navigation.replace("Home")
-    })
-    .catch((error) => {
-        console.log(error);
-    })
-    
-}
+    const navToHome = () => {
+        navigation.navigate("Home")
+    }
 
-    return (<View style={styles.container}>
+    function borrowBook() {
+        updateDoc(doc(db, "books", id), {
+            available: false,
+            borrower: user
+        })
+            .then(() => {
+                navigation.navigate("Home")
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
+    }
+
+    return (<ScrollView>
+    <View style={styles.container}>
         <Text style={styles.title}> Book added</Text>
-        <View >
+        <View>
 
             <Image
                 style={styles.profileImg}
                 source={book.cover_img}
             />
 
-        </View >
+        </View>
         <Text style={styles.title}>{book.title} </Text>
         <Text style={styles.authorName}>{book.author}</Text>
-        <Text>{book.description}</Text>
+        <Text numberOfLines={15} ellipsizeMode={'tail'} style={styles.description}>{book.description}</Text>
         <View style={styles.buttonContainer}>
             <TouchableOpacity
                 onPress={borrowBook}
@@ -70,8 +64,16 @@ function borrowBook() {
                 <Text style={styles.buttonText}>Request</Text>
             </TouchableOpacity>
         </View>
-
+        <View style={styles.buttonContainer}>
+            <TouchableOpacity
+                onPress={navToHome}
+                style={styles.button}
+            >
+                <Text style={styles.buttonText}>Browse More books</Text>
+            </TouchableOpacity>
+        </View>
     </View>
+    </ScrollView>
     )
 }
 
@@ -89,6 +91,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    description: {
+        padding: '10px',
+        textAlign: 'justify',
+        fontFamily: 'Roboto',
+        fontSize: 18,
+        marginBottom: 0,
+        paddingBottom: 0,
+    },
     buttonContainer: {
         width: '60%',
         justifyContent: 'center',
@@ -98,6 +108,7 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#0782F9',
         width: '100%',
+        marginTop: 2,
         padding: 15,
         borderRadius: 10,
         alignItems: 'center',
