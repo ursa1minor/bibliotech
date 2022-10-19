@@ -23,10 +23,8 @@ export default function AddBook() {
 	const [borrower, setBorrower] = useState('');
 
 	const [isPending, setIsPending] = useState(false);
-
-  	const [createdAt, setCreatedAt] = useState('');
-
-
+	const [chosenIndex, setChosenIndex] = useState(4)
+	const [createdAt, setCreatedAt] = useState('');
 	const [searchTerms, setSearchTerms] = useState('');
 	const [searchResults, setSearchResults] = useState([
 		{
@@ -43,7 +41,6 @@ export default function AddBook() {
 		},
 	]);
 	const [chosenBook, setChosenBook] = useState({});
-	const [isSelected, setIsSelected] = useState(false);
 
 	useEffect(() => {
 		axios
@@ -76,7 +73,7 @@ export default function AddBook() {
 					},
 				]);
 			})
-			.catch((err) => {});
+			.catch((err) => { });
 	}, [searchTerms, chosenBook]);
 
 	function chooseBook() {
@@ -92,14 +89,9 @@ export default function AddBook() {
 			numberOfReviews: numberOfReviews,
 			location: location,
 			borrower: borrower,
-
-			pending: pending,
 			createdAt: firebase.firestore.FieldValue.serverTimestamp(),
 
 		})
-			.then(() => {
-				console.log('data submitted');
-			})
 			.catch((error) => {
 				console.log(error);
 			});
@@ -124,10 +116,13 @@ export default function AddBook() {
 
 			{searchResults.map((book, index) => {
 				return (
-					<TouchableOpacity onPress={() => setChosenBook(book)}>
+					<TouchableOpacity onPress={() => {
+						setChosenBook(book)
+						setChosenIndex(index)
+					}}>
 						<View
 							style={
-								isSelected ? styles.bookOptionsSelected : styles.bookOptions
+								(index === chosenIndex) ? styles.bookOptionsSelected : styles.bookOptions
 							}
 							key={index}
 						>
@@ -167,15 +162,6 @@ const styles = StyleSheet.create({
 		marginLeft: '10%',
 		marginBottom: 15,
 	},
-	// input: {
-	// 	backgroundColor: 'white',
-	// 	paddingHorizontal: 15,
-	// 	paddingVertical: 10,
-	// 	borderRadius: 10,
-	// 	marginTop: 5,
-	// 	backgroundColor: 'yellow',
-	// },
-
 	textBoxes: {
 		width: '90%',
 		fontSize: 18,
