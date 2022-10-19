@@ -1,13 +1,8 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/core';
-import {
-	StyleSheet,
-	Text,
-	View,
-	FlatList,
-	Image,
-} from 'react-native';
+import { StyleSheet, Text, View, FlatList, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { firebase } from '../../config';
 
 const Item = ({ name, author, cover_img }) => (
 	<View style={styles.itemCard}>
@@ -23,7 +18,15 @@ const List = ({ searchPhrase, setClicked, data }) => {
 	const navigation = useNavigation();
 
 	const renderItem = ({ item }) => {
-		if (searchPhrase === '' && item.available === true) {
+		
+		if (item.available === true) {
+
+
+		if ((searchPhrase === '') || 
+			item.title.toUpperCase().includes(searchPhrase.toUpperCase().trim()) ||
+			item.author.toUpperCase().includes(searchPhrase.toUpperCase().trim())
+			) {
+
 			return (
 				<TouchableOpacity
 
@@ -36,52 +39,12 @@ const List = ({ searchPhrase, setClicked, data }) => {
 						author={item.author}
 						cover_img={item.cover_img}
 					/>
-				</TouchableOpacity>
-			);
-		}
-		if (
-			item.title.toUpperCase().includes(searchPhrase.toUpperCase().trim()) &&
-			item.available === true
-		) {
-			return (
-				<TouchableOpacity
-					style={{ width: '100%' }}
-					onPress={() => navigation.navigate('Single book', { id: item.id })}
-				>
-					<Item
-						style={styles.item}
-						name={item.title}
-						author={item.author}
-						cover_img={item.cover_img}
-					/>
-
-				</TouchableOpacity>
-			);
-		}
-		if (
-			item.author.toUpperCase().includes(searchPhrase.toUpperCase().trim()) &&
-			item.available === true
-		) {
-			return (
-				<TouchableOpacity
-					style={{ width: '100%' }}
-					onPress={() => navigation.navigate('Single book', { id: item.id })}
-				>
-
-					<Item name={item.title} details={item.author} />
-
-				<Item
-					style={styles.item}
-					name={item.title}
-					author={item.author}
-					cover_img={item.cover_img}
-				/>
-
 
 				</TouchableOpacity>
 			);
 		}
 	};
+}
 
 	return (
 			<View
