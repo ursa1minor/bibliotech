@@ -27,6 +27,7 @@ export default function AddBook() {
 	const [user_id, setUser_id] = useState(firebase.auth().currentUser.uid);
 	const [location, setLocation] = useState('Manchester');
 	const [borrower, setBorrower] = useState('');
+  	const [createdAt, setCreatedAt] = useState('');
 
 	const [searchTerms, setSearchTerms] = useState('');
 	const [searchResults, setSearchResults] = useState([
@@ -93,6 +94,7 @@ export default function AddBook() {
 			numberOfReviews: numberOfReviews,
 			location: location,
 			borrower: borrower,
+      		createdAt: firebase.firestore.FieldValue.serverTimestamp()
 		})
 			.then(() => {
 				console.log('data submitted');
