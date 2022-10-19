@@ -20,6 +20,7 @@ const List = ({ searchPhrase, setClicked, data }) => {
 
 	const renderItem = ({ item }) => {
 
+
 		if (item.available === true && item.user_id !== user) {
 
 
@@ -46,6 +47,7 @@ const List = ({ searchPhrase, setClicked, data }) => {
 			}
 		};
 	}
+
 
 	return (
 		<View
@@ -92,7 +94,7 @@ const styles = StyleSheet.create({
 		marginBottom: 5,
 	},
 	author: {
-		fontSize: 12,
+		fontSize: 14,
 		textTransform: 'capitalize',
 	},
 	itemHeading: {

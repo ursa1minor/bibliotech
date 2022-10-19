@@ -1,10 +1,4 @@
-
-import {
-	View,
-	Text,
-	StyleSheet,
-	TouchableOpacity,
-} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/core';
@@ -27,7 +21,11 @@ export default function AddBook() {
 	const [user_id, setUser_id] = useState(firebase.auth().currentUser.uid);
 	const [location, setLocation] = useState('Manchester');
 	const [borrower, setBorrower] = useState('');
+
+	const [isPending, setIsPending] = useState(false);
+
   	const [createdAt, setCreatedAt] = useState('');
+
 
 	const [searchTerms, setSearchTerms] = useState('');
 	const [searchResults, setSearchResults] = useState([
@@ -45,12 +43,12 @@ export default function AddBook() {
 		},
 	]);
 	const [chosenBook, setChosenBook] = useState({});
+	const [isSelected, setIsSelected] = useState(false);
 
 	useEffect(() => {
 		axios
 			.get(`https://www.googleapis.com/books/v1/volumes?q=${searchTerms}`)
 			.then(({ data }) => {
-
 				setSearchResults([
 					{
 						title: data.items[0].volumeInfo.title,
@@ -94,7 +92,10 @@ export default function AddBook() {
 			numberOfReviews: numberOfReviews,
 			location: location,
 			borrower: borrower,
-      		createdAt: firebase.firestore.FieldValue.serverTimestamp()
+
+			pending: pending,
+			createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+
 		})
 			.then(() => {
 				console.log('data submitted');
@@ -116,35 +117,41 @@ export default function AddBook() {
 				style={styles.textBoxes}
 				placeholder="Enter book or author..."
 			></TextInput>
-      <br></br>
-      <Text>Select your book:</Text>
+			<br></br>
+			<Text style={{ fontSize: 14, marginBottom: '1rem' }}>
+				Select your book:
+			</Text>
 
 			{searchResults.map((book, index) => {
 				return (
-					<View key={index}>
-						<TouchableOpacity
-							style={[styles.button, styles.buttonOutline]}
-							onPress={() => setChosenBook(book)}
+					<TouchableOpacity onPress={() => setChosenBook(book)}>
+						<View
+							style={
+								isSelected ? styles.bookOptionsSelected : styles.bookOptions
+							}
+							key={index}
 						>
-							<Text style={styles.buttonOutlineText}> {book.title}</Text>
-							<Text style={styles.buttonOutlineText}>{book.author}</Text>
-						</TouchableOpacity>
-					</View>
+							<Text
+								numberOfLines={2}
+								ellipsizeMode={'tail'}
+								style={styles.textOptionsTitle}
+							>
+								{book.title}
+							</Text>
+							<Text style={styles.textOptionsAuthor}>{book.author}</Text>
+						</View>
+					</TouchableOpacity>
 				);
 			})}
 
 			<View>
 				<TouchableOpacity
-					style={[styles.button, styles.buttonOutline]}
 					onPress={() => {
 						chooseBook(chosenBook);
 						navigation.navigate('My Books');
 					}}
 				>
-					<Text style={styles.buttonOutlineText}>
-						{' '}
-						Make {chosenBook.title} available for lend
-					</Text>
+					<Text style={styles.button}>Add book for lend</Text>
 				</TouchableOpacity>
 			</View>
 		</View>
@@ -152,14 +159,6 @@ export default function AddBook() {
 }
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-	inputContainer: {
-		width: '100%',
-	},
 	title: {
 		width: '100%',
 		marginTop: 20,
@@ -168,20 +167,15 @@ const styles = StyleSheet.create({
 		marginLeft: '10%',
 		marginBottom: 15,
 	},
-	input: {
-		backgroundColor: 'white',
-		paddingHorizontal: 15,
-		paddingVertical: 10,
-		borderRadius: 10,
-		marginTop: 5,
-	},
-	buttonContainer: {
-		width: '100%',
-		justifyContent: 'center',
-		alignItems: 'center',
-		marginTop: 40,
-		marginBottom: 40,
-	},
+	// input: {
+	// 	backgroundColor: 'white',
+	// 	paddingHorizontal: 15,
+	// 	paddingVertical: 10,
+	// 	borderRadius: 10,
+	// 	marginTop: 5,
+	// 	backgroundColor: 'yellow',
+	// },
+
 	textBoxes: {
 		width: '90%',
 		fontSize: 18,
@@ -191,27 +185,45 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 	},
 	button: {
+		textAlign: 'center',
 		backgroundColor: '#0782F9',
-		width: '100%',
-		padding: 15,
-		borderRadius: 10,
-		alignItems: 'center',
-	},
-	buttonOutline: {
-		backgroundColor: 'white',
-		marginTop: 5,
-		borderColor: '#0782F9',
-		borderWidth: 2,
-	},
-	buttonText: {
 		color: 'white',
-		fontWeight: '700',
-		fontSize: 16,
+		width: '335px',
+		padding: 15,
+		borderRadius: '.5rem',
+		alignItems: 'center',
+		marginTop: '1rem',
+		fontWeight: 'bold',
+		fontSize: '1.1rem',
 	},
-	buttonOutlineText: {
-		color: '#0782F9',
-		fontWeight: '700',
+	bookOptions: {
+		justifyContent: 'center',
+		alignItems: 'center',
+		width: '335px',
+		backgroundColor: 'white',
+		borderRadius: '.5rem',
+		marginBottom: '.5rem',
+		padding: '.5rem',
+	},
+	bookOptionsSelected: {
+		justifyContent: 'center',
+		alignItems: 'center',
+		width: '335px',
+		backgroundColor: 'white',
+		borderRadius: '.5rem',
+		marginBottom: '.5rem',
+		padding: '.5rem',
+		borderWidth: 2,
+		borderColor: '#0782F9',
+	},
+	textOptionsTitle: {
+		fontSize: 17,
+		fontWeight: 'bold',
+		numberOfLines: 1,
+		marginBottom: 5,
+	},
+	textOptionsAuthor: {
 		fontSize: 14,
+		textTransform: 'capitalize',
 	},
-
 });
