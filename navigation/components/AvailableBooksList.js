@@ -1,8 +1,7 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/core';
-import { StyleSheet, Text, View, FlatList, Image } from 'react-native';
+import { StyleSheet, Text, View, FlatList, Image, SafeAreaView } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { firebase } from '../../config';
 
 const Item = ({ name, author, cover_img }) => (
 	<View style={styles.itemCard}>
@@ -47,7 +46,7 @@ const List = ({ searchPhrase, setClicked, data }) => {
 }
 
 	return (
-			<View
+			<SafeAreaView
 				onStartShouldSetResponder={() => {
 					setClicked(false);
 				}}
@@ -58,19 +57,13 @@ const List = ({ searchPhrase, setClicked, data }) => {
 					data={data}
 					renderItem={renderItem}
 				/>
-			</View>
+			</SafeAreaView>
 	);
 };
 
 export default List;
 
 const styles = StyleSheet.create({
-	contentContainer: {
-		flex: 1,
-		justifyContent: 'center',
-		maxWidth: '90%',
-		minWidth: '90%',
-	},
 	itemCard: {
 		marginLeft: '5%',
 		marginRight: '5%',
