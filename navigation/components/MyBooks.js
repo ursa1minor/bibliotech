@@ -8,6 +8,7 @@ import {
 	StyleSheet,
 } from 'react-native';
 import { firebase } from '../../config';
+import { useNavigation } from '@react-navigation/native';
 
 const MyBooks = () => {
 	const [myBookList, setMyBookList] = useState([]);
@@ -16,6 +17,8 @@ const MyBooks = () => {
 	const db = firebase.firestore();
 	const booksRef = db.collection('books');
 	const auth = firebase.auth();
+	const navigation = useNavigation();
+	const [chosenBook, setChosenBook] = useState('');
 
 	useEffect(() => {
 		setIsMyBooksActive(true);
@@ -127,18 +130,25 @@ const MyBooks = () => {
 				{myBookList.map((book) => {
 					return (
 						<View style={styles.bookCard} key={book.id}>
-							<Image style={styles.bookImage} source={book.cover_img} />
-							<View style={styles.detailsWrapper}>
-								<Text style={styles.title}>{book.title}</Text>
-								<Text style={styles.author}>{book.author}</Text>
-								{book.available ? (
-									<Text style={styles.availability}>
-										Book available for lending
-									</Text>
-								) : (
-									<Text style={styles.availability}>Book lent</Text>
-								)}
-							</View>
+							<TouchableOpacity
+								style={styles.bookContainer}
+								onPress={() => {
+									navigation.navigate('Book Card', book.id);
+								}}
+							>
+								<Image style={styles.bookImage} source={book.cover_img} />
+								<View style={styles.detailsWrapper}>
+									<Text style={styles.title}>{book.title}</Text>
+									<Text style={styles.author}>{book.author}</Text>
+									{book.available ? (
+										<Text style={styles.availability}>
+											Book available for lending
+										</Text>
+									) : (
+										<Text style={styles.availability}>Book lent</Text>
+									)}
+								</View>
+							</TouchableOpacity>
 						</View>
 					);
 				})}
@@ -181,13 +191,16 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 3,
 		borderBottomColor: '#979797',
 	},
+	bookContainer: {
+		width: '100%',
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
 	bookCard: {
 		marginLeft: '5%',
 		marginRight: '5%',
 		maxWidth: '90%',
 		minWidth: '90%',
-		flexDirection: 'row',
-		alignItems: 'center',
 		backgroundColor: 'white',
 		borderRadius: '.5rem',
 		borderBottomWidth: 2,
