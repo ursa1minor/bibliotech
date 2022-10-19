@@ -22,7 +22,7 @@ export default function AddBook() {
 	const [location, setLocation] = useState('Manchester');
 	const [borrower, setBorrower] = useState('');
 
-	const [isPending, setIsPending] = useState(false);
+	const [pending, setPending] = useState(false);
 
   	const [createdAt, setCreatedAt] = useState('');
 
@@ -92,7 +92,6 @@ export default function AddBook() {
 			numberOfReviews: numberOfReviews,
 			location: location,
 			borrower: borrower,
-
 			pending: pending,
 			createdAt: firebase.firestore.FieldValue.serverTimestamp(),
 
