@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { firebase } from '../../config'
-import { StyleSheet, Text, TouchableOpacity, TextInput, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useNavigation } from '@react-navigation/core';
 
 const DeleteProfile = () => {

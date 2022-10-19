@@ -44,7 +44,6 @@ const SingleBook = ({ route }) => {
 
     return (<ScrollView>
     <View style={styles.container}>
-        <Text style={styles.title}> Book added</Text>
         <View>
 
             <Image
@@ -100,7 +99,7 @@ const styles = StyleSheet.create({
         paddingBottom: 0,
     },
     buttonContainer: {
-        width: '60%',
+        width: '90%',
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 40,

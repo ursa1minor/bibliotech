@@ -6,7 +6,6 @@ import {
 	TextInput,
 	TouchableOpacity,
 	View,
-	SafeAreaView,
 } from 'react-native';
 import { firebase } from '../../config';
 
