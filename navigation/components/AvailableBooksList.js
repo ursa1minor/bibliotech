@@ -16,49 +16,50 @@ const Item = ({ name, author, cover_img }) => (
 
 const List = ({ searchPhrase, setClicked, data }) => {
 	const navigation = useNavigation();
+	const user = firebase.auth().currentUser.uid;
 
 	const renderItem = ({ item }) => {
-		
-		if (item.available === true) {
+
+		if (item.available === true && item.user_id !== user) {
 
 
-		if ((searchPhrase === '') || 
-			item.title.toUpperCase().includes(searchPhrase.toUpperCase().trim()) ||
-			item.author.toUpperCase().includes(searchPhrase.toUpperCase().trim())
+			if ((searchPhrase === '') ||
+				item.title.toUpperCase().includes(searchPhrase.toUpperCase().trim()) ||
+				item.author.toUpperCase().includes(searchPhrase.toUpperCase().trim())
 			) {
 
-			return (
-				<TouchableOpacity
+				return (
+					<TouchableOpacity
 
-					style={{ width: '100%' }}
-					onPress={() => navigation.navigate('Single book', { id: item.id })}
-				>
-					<Item
-						style={styles.item}
-						name={item.title}
-						author={item.author}
-						cover_img={item.cover_img}
-					/>
+						style={{ width: '100%' }}
+						onPress={() => navigation.navigate('Single book', { id: item.id })}
+					>
+						<Item
+							style={styles.item}
+							name={item.title}
+							author={item.author}
+							cover_img={item.cover_img}
+						/>
 
-				</TouchableOpacity>
-			);
-		}
-	};
-}
+					</TouchableOpacity>
+				);
+			}
+		};
+	}
 
 	return (
-			<View
-				onStartShouldSetResponder={() => {
-					setClicked(false);
-				}}
-				style={{width: '100%'}}
-			>
-				<FlatList
-					keyExtractor={(item) => item.id}
-					data={data}
-					renderItem={renderItem}
-				/>
-			</View>
+		<View
+			onStartShouldSetResponder={() => {
+				setClicked(false);
+			}}
+			style={{ width: '100%' }}
+		>
+			<FlatList
+				keyExtractor={(item) => item.id}
+				data={data}
+				renderItem={renderItem}
+			/>
+		</View>
 	);
 };
 
