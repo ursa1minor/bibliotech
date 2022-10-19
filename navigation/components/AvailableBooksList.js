@@ -19,7 +19,6 @@ const List = ({ searchPhrase, setClicked, data }) => {
 
 	const renderItem = ({ item }) => {
 
-
 		if (item.available === true && item.user_id !== user) {
 
 

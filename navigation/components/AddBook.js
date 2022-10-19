@@ -10,7 +10,6 @@ import { firebase } from '../../config';
 export default function AddBook() {
 	const db = firebase.firestore();
 	const navigation = useNavigation();
-
 	const [author, setAuthor] = useState('');
 	const [available, setAvailable] = useState(true);
 	const [cover_img, setCover_img] = useState('');
@@ -21,12 +20,9 @@ export default function AddBook() {
 	const [user_id, setUser_id] = useState(firebase.auth().currentUser.uid);
 	const [location, setLocation] = useState('Manchester');
 	const [borrower, setBorrower] = useState('');
-
+	const [chosenIndex, setChosenIndex] = useState(4)
 	const [pending, setPending] = useState(false);
-
-  	const [createdAt, setCreatedAt] = useState('');
-
-
+  const [createdAt, setCreatedAt] = useState('');
 	const [searchTerms, setSearchTerms] = useState('');
 	const [searchResults, setSearchResults] = useState([
 		{
@@ -43,7 +39,6 @@ export default function AddBook() {
 		},
 	]);
 	const [chosenBook, setChosenBook] = useState({});
-	const [isSelected, setIsSelected] = useState(false);
 
 	useEffect(() => {
 		axios
@@ -76,7 +71,7 @@ export default function AddBook() {
 					},
 				]);
 			})
-			.catch((err) => {});
+			.catch((err) => { });
 	}, [searchTerms, chosenBook]);
 
 	function chooseBook() {
@@ -96,9 +91,6 @@ export default function AddBook() {
 			createdAt: firebase.firestore.FieldValue.serverTimestamp(),
 
 		})
-			.then(() => {
-				console.log('data submitted');
-			})
 			.catch((error) => {
 				console.log(error);
 			});
@@ -123,10 +115,13 @@ export default function AddBook() {
 
 			{searchResults.map((book, index) => {
 				return (
-					<TouchableOpacity onPress={() => setChosenBook(book)}>
+					<TouchableOpacity onPress={() => {
+						setChosenBook(book)
+						setChosenIndex(index)
+					}}>
 						<View
 							style={
-								isSelected ? styles.bookOptionsSelected : styles.bookOptions
+								(index === chosenIndex) ? styles.bookOptionsSelected : styles.bookOptions
 							}
 							key={index}
 						>
@@ -166,15 +161,6 @@ const styles = StyleSheet.create({
 		marginLeft: '10%',
 		marginBottom: 15,
 	},
-	// input: {
-	// 	backgroundColor: 'white',
-	// 	paddingHorizontal: 15,
-	// 	paddingVertical: 10,
-	// 	borderRadius: 10,
-	// 	marginTop: 5,
-	// 	backgroundColor: 'yellow',
-	// },
-
 	textBoxes: {
 		width: '90%',
 		fontSize: 18,
