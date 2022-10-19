@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		flex: 1,
 		flexGrow: 1,
+		width: '100%'
 	},
 	title: {
 		width: '100%',
