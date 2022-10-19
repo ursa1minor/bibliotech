@@ -21,10 +21,12 @@ const List = ({ searchPhrase, setClicked, data }) => {
 		
 		if (item.available === true) {
 
+
 		if ((searchPhrase === '') || 
 			item.title.toUpperCase().includes(searchPhrase.toUpperCase().trim()) ||
 			item.author.toUpperCase().includes(searchPhrase.toUpperCase().trim())
 			) {
+
 			return (
 				<TouchableOpacity
 
@@ -37,6 +39,7 @@ const List = ({ searchPhrase, setClicked, data }) => {
 						author={item.author}
 						cover_img={item.cover_img}
 					/>
+
 				</TouchableOpacity>
 			);
 		}

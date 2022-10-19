@@ -2,12 +2,12 @@ import * as React from 'react';
 import { useNavigation } from '@react-navigation/core'
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { firebase } from '../../config';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const BookCard = ({ route }) => {
     const { id } = route.params
     const db = firebase.firestore();
     const [book, setBook] = React.useState({});
-
 
     const navigation = useNavigation()
 
@@ -17,35 +17,41 @@ const BookCard = ({ route }) => {
             .get()
             .then((snapshot) => {
                 setBook(snapshot.data());
-            });
-    }, [id]);
-
+            })
+        }, [id]);
+   
     const handleBack = () => {
         navigation.replace("Home")
     }
 
-    return (<View style={styles.container}>
-        <View >
+    
+    
+    return (<ScrollView>
 
+    <View style={styles.container}>
+        <View>
+       
             <Image
                 style={styles.profileImg}
                 source={book.cover_img}
             />
 
-        </View >
+        </View>
         <Text style={styles.title}>{book.title} </Text>
         <Text style={styles.authorName}>{book.author}</Text>
-        <Text>{book.description}</Text>
+        <br></br>
+        <Text style={styles.description}>{book.description}</Text>
         <View style={styles.buttonContainer}>
             <TouchableOpacity
                 onPress={handleBack}
                 style={styles.button}
             >
-                <Text style={styles.buttonText}>request book</Text>
+                <Text style={styles.buttonText}>Request Book</Text>
             </TouchableOpacity>
         </View>
 
     </View>
+    </ScrollView>
     )
 }
 
@@ -63,6 +69,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    description: {
+        padding: '10px',
+        textAlign: 'justify',
+        fontFamily: 'Roboto',
+        fontSize: 18,
+        marginBottom: 0,
+        paddingBottom: 0,
+    },
     buttonContainer: {
         width: '60%',
         justifyContent: 'center',
@@ -72,6 +86,7 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#0782F9',
         width: '100%',
+        marginTop: 2,
         padding: 15,
         borderRadius: 10,
         alignItems: 'center',
