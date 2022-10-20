@@ -86,12 +86,13 @@ const BookCard = ({ route }) => {
 							Hi! Please can I borrow this book?
 						</Text>
 						<Text style={styles.messageBorrowerName}>
-						{user.username}
+						defective-pikachu
 						</Text>
 						<br></br>
 					</View>
 					<View style={styles.messageLenderWrapper}>
 						{messageHistory.map((message) => {
+							if (message.message.length > 0) {
 							return (
 								<View key={message.id}>
 									<Text style={styles.messageLender}>
@@ -106,7 +107,8 @@ const BookCard = ({ route }) => {
 										<br></br>
 									</View>
 								</View>
-							);
+							)
+						}
 						})}
 					</View>
 					<View style={styles.sendMessage}>
