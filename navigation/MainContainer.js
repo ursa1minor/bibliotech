@@ -3,25 +3,24 @@ import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import MyBooks from './components/MyBooks'
-
+import MyBooks from './components/MyBooks';
+import MyBooksStack from './MyBookStack';
 import RequestBookstack from './RequestBookStack';
 import AddBookstack from './AddBookstack';
 import ProfileStack from './ProfileStack';
 
-const bookStack = 'Add Book'
+const bookStack = 'Add Book';
 const home = 'Book';
 const myBooks = 'My Books';
 
-const profileStack = 'My Profile '
-const requestBook = 'Browse Books'
+const profileStack = 'My Profile ';
+const requestBook = 'Browse Books';
 
 const Tab = createBottomTabNavigator();
 
 const MainContainer = () => {
 	return (
-		<NavigationContainer 
-			independent={true}>
+		<NavigationContainer independent={true}>
 			<Tab.Navigator
 				initialRouteName={home}
 				screenOptions={({ route }) => ({
@@ -51,11 +50,9 @@ const MainContainer = () => {
 				})}
 			>
 				<Tab.Screen name={requestBook} component={RequestBookstack} />
-				<Tab.Screen name={myBooks} component={MyBooks} />
+				<Tab.Screen name={'My Books Stack'} component={MyBooksStack} />
 				<Tab.Screen name={bookStack} component={AddBookstack} />
 				<Tab.Screen name={profileStack} component={ProfileStack} />
-
-
 			</Tab.Navigator>
 		</NavigationContainer>
 	);
