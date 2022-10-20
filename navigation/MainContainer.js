@@ -1,9 +1,7 @@
 import * as React from 'react';
-import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
-import MyBooks from './components/MyBooks';
 import MyBooksStack from './MyBookStack';
 import RequestBookstack from './RequestBookStack';
 import AddBookstack from './AddBookstack';

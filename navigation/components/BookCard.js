@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useNavigation } from '@react-navigation/core';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { firebase } from '../../config';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -10,14 +9,11 @@ const BookCard = ({ route }) => {
 	const id = route.params;
 	const db = firebase.firestore();
 	const [book, setBook] = React.useState({});
-	const [userID, setUserID] = React.useState(firebase.auth().currentUser.uid);
+	const userID = firebase.auth().currentUser.uid
 	const [message, setMessage] = React.useState('');
 	const messagesRef = db.collection('messages');
-	const usersRef = db.collection('users');
-	const booksRef = db.collection('books');
 	const [messageHistory, setMessageHistory] = React.useState([]);
 	const [user, setUser] = React.useState('');
-	const navigation = useNavigation();
 
 	React.useEffect(() => {
 		messagesRef.onSnapshot((snapshot) => {
@@ -54,13 +50,6 @@ const BookCard = ({ route }) => {
 			});
 	}, [id]);
 
-	console.log(route.params, '<- route params');
-	console.log(id, '<- id');
-	console.log(id, '<- id');
-	const handleBack = () => {
-		navigation.navigate('My Books');
-	};
-
 	function createMessage() {
 		addDoc(collection(db, 'messages'), {
 			message: message,
@@ -68,9 +57,6 @@ const BookCard = ({ route }) => {
 			createdAt: firebase.firestore.FieldValue.serverTimestamp(),
 			bookID: id,
 		})
-			.then(() => {
-				console.log('data submitted');
-			})
 			.catch((error) => {
 				console.log(error);
 			});
@@ -133,14 +119,6 @@ const BookCard = ({ route }) => {
 						</TouchableOpacity>
 					</View>
 				</View>
-				{/* <View style={styles.buttonContainer}>
-            <TouchableOpacity
-                onPress={handleBack}
-                style={styles.button}
-            >
-                <Text style={styles.buttonText}>Request Book</Text>
-            </TouchableOpacity>
-        </View> */}
 			</View>
 		</ScrollView>
 	);

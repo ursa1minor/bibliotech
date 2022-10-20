@@ -1,12 +1,10 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
 import BookCard from './components/BookCard';
-import Home from './components/HomeScreen';
 import MyBooks from './components/MyBooks';
 
 const bookCard = 'Book Card';
-const home = 'Home';
+
 const myBooks = 'My Books';
 const Stack = createNativeStackNavigator();
 
