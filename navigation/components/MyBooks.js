@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { firebase } from '../../config';
 import { useNavigation } from '@react-navigation/native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const MyBooks = () => {
 	const [myBookList, setMyBookList] = useState([]);
@@ -18,7 +19,6 @@ const MyBooks = () => {
 	const booksRef = db.collection('books');
 	const auth = firebase.auth();
 	const navigation = useNavigation();
-
 
 	useEffect(() => {
 		setIsMyBooksActive(true);
@@ -87,11 +87,16 @@ const MyBooks = () => {
 	};
 
 	const deleteBook = (id) => {
-		console.log(id, 'help')
-		db.collection('books').doc(id).delete().then(() => {
-			console.log('deleted')
-		})
-		.catch(error => alert(error.message))
+
+	
+		db.collection('books')
+			.doc(id)
+			.delete()
+			.then(() => {
+				console.log('deleted');
+			})
+			.catch((error) => alert(error.message));
+
 	};
 
 	return (
@@ -140,17 +145,10 @@ const MyBooks = () => {
 						<View style={styles.bookCard} key={book.id}>
 							<TouchableOpacity
 								style={styles.bookContainer}
-
 								onPress={() => {
 									navigation.navigate('Book Card', book.id);
 								}}
-							>{book.user_id === auth.currentUser?.uid ? <TouchableOpacity onPress={() => {
-								deleteBook(book.id)
-							}
-
-							}
 							>
-								<Text>X</Text></TouchableOpacity> : <View></View>}
 								<Image style={styles.bookImage} source={book.cover_img} />
 								<View style={styles.detailsWrapper}>
 									<Text style={styles.title}>{book.title}</Text>
@@ -163,12 +161,25 @@ const MyBooks = () => {
 										<Text style={styles.availability}>Book lent</Text>
 									)}
 								</View>
+								<View style={styles.deleteWrapper}>
+									{book.user_id === auth.currentUser?.uid ? (
+										<TouchableOpacity
+											onPress={() => {
+												deleteBook(book.id);
+											}}
+										>
+											<Ionicons name="trash-outline" style={styles.icon} />
+										</TouchableOpacity>
+									) : (
+										<View></View>
+									)}
+								</View>
 							</TouchableOpacity>
 						</View>
 					);
 				})}
 			</View>
-		</ScrollView >
+		</ScrollView>
 	);
 };
 
@@ -207,6 +218,7 @@ const styles = StyleSheet.create({
 		borderBottomColor: '#979797',
 	},
 	bookContainer: {
+		flex: 3,
 		width: '100%',
 		flexDirection: 'row',
 		alignItems: 'center',
@@ -245,5 +257,18 @@ const styles = StyleSheet.create({
 	},
 	detailsWrapper: {
 		flexShrink: 1,
+		width: '13rem',
+	},
+	deleteWrapper: {
+		marginRight: '.5rem',
+		alignItems: 'flex-end',
+		// borderWidth: 1,
+		padding: '.15rem',
+		// borderRadius: '.2rem',
+		// borderColor: '#808080',
+	},
+	icon: {
+		fontSize: '1.1rem',
+		color: '#808080',
 	},
 });
