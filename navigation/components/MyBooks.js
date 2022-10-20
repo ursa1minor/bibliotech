@@ -87,7 +87,8 @@ const MyBooks = () => {
 	};
 
 	const deleteBook = (id) => {
-		console.log(id, 'help');
+
+	
 		db.collection('books')
 			.doc(id)
 			.delete()
@@ -95,6 +96,7 @@ const MyBooks = () => {
 				console.log('deleted');
 			})
 			.catch((error) => alert(error.message));
+
 	};
 
 	return (
