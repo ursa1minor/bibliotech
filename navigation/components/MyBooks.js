@@ -90,8 +90,8 @@ const MyBooks = () => {
 		console.log(id, 'help')
 		db.collection('books').doc(id).delete().then(() => {
 			console.log('deleted')
-				.catch(error => alert(error.message))
 		})
+		.catch(error => alert(error.message))
 	};
 
 	return (
