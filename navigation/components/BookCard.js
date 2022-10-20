@@ -99,6 +99,10 @@ const BookCard = ({ route }) => {
 						<Text style={styles.messageBorrower}>
 							Hi! Please can I borrow this book?
 						</Text>
+						<Text style={styles.messageBorrowerName}>
+						{user.username}
+						</Text>
+						<br></br>
 					</View>
 					<View style={styles.messageLenderWrapper}>
 						{messageHistory.map((message) => {
@@ -237,4 +241,10 @@ const styles = StyleSheet.create({
 		textAlign: 'right',
 		fontStyle: 'italic',
 	},
+	messageBorrowerName: {
+		textAlign: 'left',
+		fontStyle: 'italic',
+		marginTop: '.5rem',
+		paddingLeft: '.5rem',
+	}
 });
