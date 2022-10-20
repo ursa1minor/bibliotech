@@ -18,7 +18,7 @@ const MyBooks = () => {
 	const booksRef = db.collection('books');
 	const auth = firebase.auth();
 	const navigation = useNavigation();
-	const [chosenBook, setChosenBook] = useState('');
+
 
 	useEffect(() => {
 		setIsMyBooksActive(true);
@@ -86,6 +86,14 @@ const MyBooks = () => {
 		});
 	};
 
+	const deleteBook = (id) => {
+		console.log(id, 'help')
+		db.collection('books').doc(id).delete().then(() => {
+			console.log('deleted')
+				.catch(error => alert(error.message))
+		})
+	};
+
 	return (
 		<ScrollView>
 			<View>
@@ -132,10 +140,17 @@ const MyBooks = () => {
 						<View style={styles.bookCard} key={book.id}>
 							<TouchableOpacity
 								style={styles.bookContainer}
+
 								onPress={() => {
 									navigation.navigate('Book Card', book.id);
 								}}
+							>{book.user_id === auth.currentUser?.uid ? <TouchableOpacity onPress={() => {
+								deleteBook(book.id)
+							}
+
+							}
 							>
+								<Text>X</Text></TouchableOpacity> : <View></View>}
 								<Image style={styles.bookImage} source={book.cover_img} />
 								<View style={styles.detailsWrapper}>
 									<Text style={styles.title}>{book.title}</Text>
@@ -153,7 +168,7 @@ const MyBooks = () => {
 					);
 				})}
 			</View>
-		</ScrollView>
+		</ScrollView >
 	);
 };
 

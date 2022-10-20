@@ -33,7 +33,7 @@ const DeleteProfile = () => {
                 onPress={navToProfile}
                 style={styles.button}
             >
-                <Text style={styles.buttonText}>NO WAIT I CHANGED MT MIND </Text>
+                <Text style={styles.buttonText}>NO WAIT I CHANGED MY MIND </Text>
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={handleDelete}
