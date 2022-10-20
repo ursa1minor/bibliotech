@@ -33,7 +33,7 @@ const RegistrationForm = () => {
 	}, []);
 
 	const handleRegister = () => {
-		if (username.trim() !== '') {
+		if (username.trim() !== '' && location.trim() !== '' && firstName.trim() !== '' && lastName.trim() !== '') {
 			auth
 				.createUserWithEmailAndPassword(email, password)
 				.then(() => {
@@ -52,7 +52,7 @@ const RegistrationForm = () => {
 
 				.catch((error) => alert(error.message));
 		} else {
-			alert('please enter a valid username');
+			alert('please make sure all felids are filled');
 		}
 	};
 	const navToLogin = () => {
