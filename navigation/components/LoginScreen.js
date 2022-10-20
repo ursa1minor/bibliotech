@@ -68,8 +68,10 @@ const LoginScreen = () => {
 					<Text style={styles.text}>
 						Don't have an account yet?
 						<TouchableOpacity style={styles.signUp} onPress={handleSignUp}>
-							{' '}
-							Sign Up{' '}
+							<Text>
+								{' '}
+								Sign Up{' '}
+							</Text>
 						</TouchableOpacity>
 					</Text>
 				</View>
