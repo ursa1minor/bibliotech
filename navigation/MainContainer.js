@@ -1,12 +1,10 @@
 import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import MyBooks from './components/MyBooks'
 
-import Profile from './components/Profile';
-import Home from './components/HomeScreen';
 import RequestBookstack from './RequestBookStack';
 import AddBookstack from './AddBookstack';
 import ProfileStack from './ProfileStack';
@@ -22,7 +20,8 @@ const Tab = createBottomTabNavigator();
 
 const MainContainer = () => {
 	return (
-		<NavigationContainer independent={true}>
+		<NavigationContainer 
+			independent={true}>
 			<Tab.Navigator
 				initialRouteName={home}
 				screenOptions={({ route }) => ({

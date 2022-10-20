@@ -12,10 +12,8 @@ import SearchBar from './SearchBar';
 import List from './AvailableBooksList';
 
 const HomeScreen = () => {
-	const auth = firebase.auth();
 	const db = firebase.firestore();
 	const booksRef = db.collection('books');
-	const navigation = useNavigation();
 	const [searchPhrase, setSearchPhrase] = useState('');
 	const [clicked, setClicked] = useState(false);
 	const [bookList, setBookList] = useState([]);
