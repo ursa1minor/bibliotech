@@ -4,7 +4,7 @@ import { View, StyleSheet, Image } from 'react-native';
 const Bibliotech = () => {
 	return (
 		<View style={styles.container}>
-			<Image style={styles.logo} source={require('../../bibliotech-transparent.png')} />
+			<Image style={styles.logo} source={require('../../assets/bibliotech-transparent.png')} />
 		</View>
 	);
 };

@@ -1,4 +1,3 @@
-import { useNavigation } from '@react-navigation/core';
 import React, { useState, useEffect } from 'react';
 import {
 	StyleSheet,

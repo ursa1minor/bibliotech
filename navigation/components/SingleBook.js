@@ -2,16 +2,14 @@ import * as React from 'react';
 import { useNavigation } from '@react-navigation/core'
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { firebase } from '../../config';
-
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import { doc, collection, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 
 
 const SingleBook = ({ route }) => {
     const { id } = route.params
     const db = firebase.firestore();
     const [book, setBook] = React.useState({});
-    const [user, setUser] = React.useState(firebase.auth().currentUser.uid);
+    const user = firebase.auth().currentUser.uid
 
     const navigation = useNavigation()
 
@@ -43,35 +41,35 @@ const SingleBook = ({ route }) => {
     }
 
     return (<ScrollView>
-    <View style={styles.container}>
-        <View>
+        <View style={styles.container}>
+            <View>
 
-            <Image
-                style={styles.profileImg}
-                source={book.cover_img}
-            />
+                <Image
+                    style={styles.profileImg}
+                    source={book.cover_img}
+                />
 
+            </View>
+            <Text style={styles.title}>{book.title} </Text>
+            <Text style={styles.authorName}>{book.author}</Text>
+            <Text numberOfLines={15} ellipsizeMode={'tail'} style={styles.description}>{book.description}</Text>
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity
+                    onPress={borrowBook}
+                    style={styles.button}
+                >
+                    <Text style={styles.buttonText}>Request</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity
+                    onPress={navToHome}
+                    style={styles.button}
+                >
+                    <Text style={styles.buttonText}>Browse More books</Text>
+                </TouchableOpacity>
+            </View>
         </View>
-        <Text style={styles.title}>{book.title} </Text>
-        <Text style={styles.authorName}>{book.author}</Text>
-        <Text numberOfLines={15} ellipsizeMode={'tail'} style={styles.description}>{book.description}</Text>
-        <View style={styles.buttonContainer}>
-            <TouchableOpacity
-                onPress={borrowBook}
-                style={styles.button}
-            >
-                <Text style={styles.buttonText}>Request</Text>
-            </TouchableOpacity>
-        </View>
-        <View style={styles.buttonContainer}>
-            <TouchableOpacity
-                onPress={navToHome}
-                style={styles.button}
-            >
-                <Text style={styles.buttonText}>Browse More books</Text>
-            </TouchableOpacity>
-        </View>
-    </View>
     </ScrollView>
     )
 }

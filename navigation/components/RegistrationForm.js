@@ -37,9 +37,7 @@ const RegistrationForm = () => {
 			auth
 				.createUserWithEmailAndPassword(email, password)
 				.then(() => {
-					firebase
-						.firestore()
-						.collection('users')
+					db.collection('users')
 						.doc(firebase.auth().currentUser.uid)
 						.set({
 							email: email,

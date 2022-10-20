@@ -14,7 +14,7 @@ const DeleteProfile = () => {
     }
 
     const handleDelete = () => {
-        firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).delete({
+        db.collection('users').doc(auth.currentUser.uid).delete({
 
         })
             .then(() => {

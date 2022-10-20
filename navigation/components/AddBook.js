@@ -3,26 +3,19 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/core';
 import { TextInput } from 'react-native-web';
-
 import { addDoc, collection } from 'firebase/firestore';
 import { firebase } from '../../config';
 
 export default function AddBook() {
 	const db = firebase.firestore();
 	const navigation = useNavigation();
-	const [author, setAuthor] = useState('');
-	const [available, setAvailable] = useState(true);
-	const [cover_img, setCover_img] = useState('');
-	const [numberOfReviews, setNumberOfReviews] = useState(0);
-	const [title, setTitle] = useState('');
-	const [description, setDescription] = useState('');
-	const [categories, setCategories] = useState([]);
-	const [user_id, setUser_id] = useState(firebase.auth().currentUser.uid);
-	const [location, setLocation] = useState('Manchester');
-	const [borrower, setBorrower] = useState('');
+	const available = true
+	const numberOfReviews = 0;
+	const user_id = firebase.auth().currentUser.uid
+	const location = 'Manchester'
+	const borrower = ''
 	const [chosenIndex, setChosenIndex] = useState(4)
-	const [pending, setPending] = useState(false);
-	const [createdAt, setCreatedAt] = useState('');
+	const pending = false;
 	const [searchTerms, setSearchTerms] = useState('');
 	const [searchResults, setSearchResults] = useState([
 		{
