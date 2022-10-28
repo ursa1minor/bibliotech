@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { firebase } from '../../config';
 import { ScrollView } from 'react-native-gesture-handler';
-import { doc, collection, updateDoc, addDoc } from 'firebase/firestore';
+import { doc, collection, updateDoc, addDoc, query, orderBy, limit, where, getDocs } from 'firebase/firestore';
 import { TextInput } from 'react-native-web';
 
 const BookCard = ({ route }) => {
@@ -11,8 +11,10 @@ const BookCard = ({ route }) => {
 	const [book, setBook] = React.useState({});
 	const userID = firebase.auth().currentUser.uid
 	const [message, setMessage] = React.useState('');
+
 	const messagesRef = db.collection('messages');
 	const [messageHistory, setMessageHistory] = React.useState([]);
+
 	const [user, setUser] = React.useState(''); 
 	const lenderID = book.user_id;
 	const borrowerID = book.borrower;
@@ -20,22 +22,10 @@ const BookCard = ({ route }) => {
 	const [lender, setLender] = React.useState('');	
 
 	React.useEffect(() => {
-		messagesRef.onSnapshot((snapshot) => {
-			const messages = [];
-			snapshot.forEach((doc) => {
-				const { bookID, createdAt, message, borrower, lender, writer, writerName } = doc.data();
-				messages.push({
-					id: doc.id,
-					bookID,
-					createdAt,
-					message,
-					borrower,
-					lender,
-					writer,
-					writerName,
-				});
-			});
-			setMessageHistory(messages);
+		messagesRef
+		.orderBy('createdAt')
+		.onSnapshot((snapshots) => {
+			setMessageHistory(snapshots.docs.map((doc) => doc.data()))
 		});
 	}, []);
 
@@ -85,6 +75,7 @@ const BookCard = ({ route }) => {
 			bookID: id,
 			writerName: user.username,
 		})
+		setMessage('')
 			.catch((error) => {
 				console.log(error);
 			});
