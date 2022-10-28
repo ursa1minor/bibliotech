@@ -2,16 +2,22 @@ import * as React from 'react';
 import { useNavigation } from '@react-navigation/core'
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { firebase } from '../../config';
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc, addDoc, collection } from 'firebase/firestore';
 
 
 const SingleBook = ({ route }) => {
     const { id } = route.params
     const db = firebase.firestore();
     const [book, setBook] = React.useState({});
-    const user = firebase.auth().currentUser.uid
-
+    const borrowerID = firebase.auth().currentUser.uid   
+    const [borrower, setBorrower] = React.useState('');
+   
     const navigation = useNavigation()
+
+    const lenderID = book.user_id;  
+    const [lender, setLender] = React.useState('');	
+
+    const message = `Hi there, can I borrow ${book.title} by ${book.author}?`;
 
     React.useEffect(() => {
         db.collection('books')
@@ -22,14 +28,44 @@ const SingleBook = ({ route }) => {
             });
     }, [id]);
 
+    React.useEffect(() => {
+		db.collection('users')
+			.doc(borrowerID)
+			.get()
+			.then((snapshot) => {
+				setBorrower(snapshot.data());
+			});
+	}, []);
+
+    React.useEffect(() => {
+		db.collection('users')
+			.doc(lenderID)
+			.get()
+			.then((snapshot) => {
+				setLender(snapshot.data());
+			});
+	}, []);
+
     const navToHome = () => {
         navigation.navigate("Home")
     }
 
     function borrowBook() {
+        addDoc(collection(db, 'messages'), {
+			message: message,
+            writer: borrowerID,
+			borrower: borrowerID,
+            lender: lenderID,
+			createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+			bookID: id,
+            writerName: borrower.username,
+		})        
+        .then(() => {
         updateDoc(doc(db, "books", id), {
             available: false,
-            borrower: user
+            borrower: borrowerID, 
+            pending: true,
+            })
         })
             .then(() => {
                 navigation.navigate("Home")
@@ -37,7 +73,6 @@ const SingleBook = ({ route }) => {
             .catch((error) => {
                 console.log(error);
             })
-
     }
 
     return (<ScrollView>

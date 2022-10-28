@@ -13,32 +13,30 @@ const BookCard = ({ route }) => {
 	const [message, setMessage] = React.useState('');
 	const messagesRef = db.collection('messages');
 	const [messageHistory, setMessageHistory] = React.useState([]);
-	const [user, setUser] = React.useState('');
+	const [user, setUser] = React.useState(''); 
+	const lenderID = book.user_id;
+	const borrowerID = book.borrower;
+	const [borrower, setBorrower] = React.useState('');
+	const [lender, setLender] = React.useState('');	
 
 	React.useEffect(() => {
 		messagesRef.onSnapshot((snapshot) => {
 			const messages = [];
 			snapshot.forEach((doc) => {
-				const { bookID, createdAt, message, user_id } = doc.data();
+				const { bookID, createdAt, message, borrower, lender, writer, writerName } = doc.data();
 				messages.push({
 					id: doc.id,
 					bookID,
 					createdAt,
 					message,
-					user_id,
+					borrower,
+					lender,
+					writer,
+					writerName,
 				});
 			});
 			setMessageHistory(messages);
 		});
-	}, []);
-
-	React.useEffect(() => {
-		db.collection('users')
-			.doc(userID)
-			.get()
-			.then((snapshot) => {
-				setUser(snapshot.data());
-			});
 	}, []);
 
 	React.useEffect(() => {
@@ -50,12 +48,42 @@ const BookCard = ({ route }) => {
 			});
 	}, [id]);
 
+	React.useEffect(() => {
+		db.collection('users')
+			.doc(userID)
+			.get()
+			.then((snapshot) => {
+				setUser(snapshot.data());
+			});
+	}, []);
+
+	React.useEffect(() => {
+		db.collection('users')
+			.doc(lenderID)
+			.get()
+			.then((snapshot) => {
+				setLender(snapshot.data());
+			});
+	}, []);
+
+	React.useEffect(() => {
+		db.collection('users')
+			.doc(borrowerID)
+			.get()
+			.then((snapshot) => {
+				setBorrower(snapshot.data());
+			});
+	}, []);
+
 	function createMessage() {
 		addDoc(collection(db, 'messages'), {
 			message: message,
-			userID: userID,
+			writer: userID,
+			borrower: borrowerID,
+			lender: lenderID,
 			createdAt: firebase.firestore.FieldValue.serverTimestamp(),
 			bookID: id,
+			writerName: user.username,
 		})
 			.catch((error) => {
 				console.log(error);
@@ -81,18 +109,11 @@ const BookCard = ({ route }) => {
 				<br></br>
 				<br></br>
 				<View style={styles.messageContainer}>
-					<View style={styles.messageBorrower}>
-						<Text style={styles.messageBorrower}>
-							Hi! Please can I borrow this book?
-						</Text>
-						<Text style={styles.messageBorrowerName}>
-						defective-pikachu
-						</Text>
-						<br></br>
-					</View>
-					<View style={styles.messageLenderWrapper}>
+					<View >
 						{messageHistory.map((message) => {
-							if (message.message.length > 0) {
+							if ((message.message.length > 0) 
+								&& (message.bookID === id)) 
+								{
 							return (
 								<View key={message.id}>
 									<Text style={styles.messageLender}>
@@ -100,9 +121,9 @@ const BookCard = ({ route }) => {
 										{message.message}
 									</Text>
 									<View>
-										<Text style={styles.messageLender}>{message.userID}</Text>
-										<Text style={styles.messageLenderUser}>
-											{user.username}
+										<Text style={styles.messageBorrower}>{message.userID}</Text>
+										<Text style={styles.messageBorrowerName}>
+											{message.writerName}
 										</Text>
 										<br></br>
 									</View>
@@ -206,6 +227,10 @@ const styles = StyleSheet.create({
 		fontSize: '1.1rem',
 		fontWeight: 'bold',
 		color: 'white',
+	},
+	messageBorrowerWrapper: {
+		marginLeft: '.5rem',
+		alignItems: 'flex-end',
 	},
 	messageLenderWrapper: {
 		marginRight: '.5rem',
