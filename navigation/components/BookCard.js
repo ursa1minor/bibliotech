@@ -99,6 +99,7 @@ const BookCard = ({ route }) => {
 				</Text>
 				<br></br>
 				<br></br>
+				{!book.available && 
 				<View style={styles.messageContainer}>
 					<View >
 						{messageHistory.map((message) => {
@@ -137,6 +138,7 @@ const BookCard = ({ route }) => {
 						</TouchableOpacity>
 					</View>
 				</View>
+				}
 			</View>
 		</ScrollView>
 	);
