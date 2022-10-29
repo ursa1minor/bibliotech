@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/core'
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { firebase } from '../../config';
@@ -8,19 +8,22 @@ import { doc, updateDoc, addDoc, collection } from 'firebase/firestore';
 const SingleBook = ({ route }) => {
     const { id } = route.params
     const db = firebase.firestore();
-    const [book, setBook] = React.useState({});
     const borrowerID = firebase.auth().currentUser.uid   
-    const [borrower, setBorrower] = React.useState('');
-   
-    const navigation = useNavigation()
-
-    const lenderID = book.user_id;  
-    const [lender, setLender] = React.useState('');	
-
+    const booksRef = db.collection('books');
+	const usersRef = db.collection('users');
+	const messagesRef = db.collection('messages');
+  
+    const [book, setBook] = React.useState({});
     const message = `Hi there, can I borrow ${book.title} by ${book.author}?`;
-
-    React.useEffect(() => {
-        db.collection('books')
+    
+    const [borrower, setBorrower] = React.useState('');
+    const lenderID = book.user_id;
+    const [lender, setLender] = React.useState('');	
+	
+    const navigation = useNavigation()
+ 
+    useEffect(() => {
+        booksRef
             .doc(id)
             .get()
             .then((snapshot) => {
@@ -28,8 +31,8 @@ const SingleBook = ({ route }) => {
             });
     }, [id]);
 
-    React.useEffect(() => {
-		db.collection('users')
+    useEffect(() => {
+		usersRef
 			.doc(borrowerID)
 			.get()
 			.then((snapshot) => {
@@ -38,7 +41,7 @@ const SingleBook = ({ route }) => {
 	}, []);
 
     React.useEffect(() => {
-		db.collection('users')
+		usersRef
 			.doc(lenderID)
 			.get()
 			.then((snapshot) => {
