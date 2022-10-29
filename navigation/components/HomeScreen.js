@@ -18,10 +18,21 @@ const HomeScreen = () => {
 	const [bookList, setBookList] = useState([]);
 
 	useEffect(() => {
-		booksRef
-		.orderBy('createdAt')
-		.onSnapshot((snapshots) => {
-			setBookList(snapshots.docs.map((doc) => doc.data()))
+		booksRef.onSnapshot((snapshot) => {
+			const books = [];
+			snapshot.forEach((doc) => {
+				const { title, author, available, cover_img, user_id } = doc.data();
+				books.push({
+					id: doc.id,
+					title,
+					author,
+					available,
+					cover_img,
+					user_id
+
+				});
+			});
+			setBookList(books);
 		});
 	}, [searchPhrase]);
 

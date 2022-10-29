@@ -24,7 +24,7 @@ bibliotech was added to Firebase as a web application and uses Firebase authoris
 
 # Dependencies:
 
-After cloning this repo, install dependencies at the command line:
+After cloining this repo, install dependencies at the command line:
 
     npm i 
 
