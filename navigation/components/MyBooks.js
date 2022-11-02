@@ -97,14 +97,24 @@ const MyBooks = () => {
 	};
 
 	const cancelLoanRequest = (id) => {
-		booksRef
 		updateDoc(doc(db, "books", id), {
-            available: true,
-            borrower: "", 
-            pending: false,
-        })
-		.catch((error) => alert(error.message));
-        }
+			available: true,
+			borrower: "", 
+			pending: false,
+			})
+		.then(() => {
+			const messageQuery = db.collection('messages')
+			.where('bookID','==',id);
+			messageQuery
+				.get()
+				.then(function(querySnapshot) {
+					  querySnapshot.forEach(function(doc) {
+					doc.ref.delete();
+					})
+				})
+        	})
+			.catch((error) => alert(error.message));
+    };
 
 	return (
 		<ScrollView>
