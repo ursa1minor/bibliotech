@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import {
-	View,
-	Text,
-	ScrollView,
-	Image,
-	TouchableOpacity,
-	StyleSheet,
-} from 'react-native';
+import { View, Text, ScrollView, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { firebase } from '../../config';
+import { doc, collection, updateDoc, addDoc, query, orderBy, limit, where, getDocs } from 'firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -25,7 +19,7 @@ const MyBooks = () => {
 		booksRef.onSnapshot((snapshot) => {
 			const books = [];
 			snapshot.forEach((doc) => {
-				const { title, author, user_id, cover_img, available } = doc.data();
+				const { title, author, user_id, cover_img, available, pending, borrower, } = doc.data();
 				if (auth.currentUser?.uid === user_id) {
 					books.push({
 						id: doc.id,
@@ -34,6 +28,8 @@ const MyBooks = () => {
 						user_id,
 						cover_img,
 						available,
+						pending,
+						borrower,
 					});
 				}
 			});
@@ -45,7 +41,7 @@ const MyBooks = () => {
 		booksRef.onSnapshot((snapshot) => {
 			const books = [];
 			snapshot.forEach((doc) => {
-				const { title, author, user_id, cover_img, borrower, available } =
+				const { title, author, user_id, cover_img, borrower, available, pending } =
 					doc.data();
 				if (auth.currentUser?.uid == borrower) {
 					books.push({
@@ -55,6 +51,8 @@ const MyBooks = () => {
 						user_id,
 						cover_img,
 						available,
+						pending, 
+						borrower,
 					});
 				}
 			});
@@ -68,7 +66,7 @@ const MyBooks = () => {
 		booksRef.onSnapshot((snapshot) => {
 			const books = [];
 			snapshot.forEach((doc) => {
-				const { title, author, user_id, cover_img, available } = doc.data();
+				const { title, author, user_id, cover_img, available, pending, borrower } = doc.data();
 				if (auth.currentUser?.uid === user_id) {
 					books.push({
 						id: doc.id,
@@ -77,6 +75,8 @@ const MyBooks = () => {
 						user_id,
 						cover_img,
 						available,
+						pending,
+						borrower
 					});
 				}
 			});
@@ -87,92 +87,100 @@ const MyBooks = () => {
 	};
 
 	const deleteBook = (id) => {
-
-	
-		db.collection('books')
+		booksRef
 			.doc(id)
 			.delete()
 			.then(() => {
 				console.log('deleted');
 			})
 			.catch((error) => alert(error.message));
-
 	};
+
+	const cancelLoanRequest = (id) => {
+		updateDoc(doc(db, "books", id), {
+			available: true,
+			borrower: "", 
+			pending: false,
+			})
+		.then(() => {
+			const messageQuery = db.collection('messages')
+			.where('bookID','==',id);
+			messageQuery
+				.get()
+				.then(function(querySnapshot) {
+					  querySnapshot.forEach(function(doc) {
+					doc.ref.delete();
+					})
+				})
+        	})
+			.catch((error) => alert(error.message));
+    };
 
 	return (
 		<ScrollView>
 			<View>
 				<View style={styles.container}>
 					<View
-						style={
-							isMyBooksActive
-								? styles.innerContainerActive
-								: styles.innerContainerInactive
-						}
+						style={isMyBooksActive ? styles.innerContainerActive : styles.innerContainerInactive}
 					>
-						<TouchableOpacity style={styles.myBooks} onPress={handleMyBooks}>
-							<Text
-								style={
-									isMyBooksActive ? styles.textActive : styles.textInactive
-								}
-							>
-								My books
-							</Text>
+						<TouchableOpacity style={styles.myBooks} onPress={handleMyBooks}> 
+							<Text style={isMyBooksActive ? styles.textActive : styles.textInactive}>Books for Loan</Text>
 						</TouchableOpacity>
 					</View>
 					<View
-						style={
-							isMyBorrowedBooksActive
-								? styles.innerContainerActive
-								: styles.innerContainerInactive
-						}
+						style={isMyBorrowedBooksActive ? styles.innerContainerActive : styles.innerContainerInactive}
 					>
 						<TouchableOpacity onPress={handleBorrowedBooks}>
-							<Text
-								style={
-									isMyBorrowedBooksActive
-										? styles.textActive
-										: styles.textInactive
-								}
-							>
-								Borrowed books
-							</Text>
+							<Text style={isMyBorrowedBooksActive ? styles.textActive : styles.textInactive}>Borrowed Books</Text>
 						</TouchableOpacity>
 					</View>
 				</View>
 				{myBookList.map((book) => {
 					return (
 						<View style={styles.bookCard} key={book.id}>
-							<TouchableOpacity
-								style={styles.bookContainer}
+							
+						<TouchableOpacity
+							style={styles.bookContainer}
 								onPress={() => {
 									navigation.navigate('Book Card', book.id);
 								}}
 							>
-								<Image style={styles.bookImage} source={book.cover_img} />
+							<Image style={styles.bookImage} source={book.cover_img} />
 								<View style={styles.detailsWrapper}>
 									<Text style={styles.title}>{book.title}</Text>
 									<Text style={styles.author}>{book.author}</Text>
-									{book.available ? (
+									{ book.available && 
 										<Text style={styles.availability}>
-											Book available for lending
-										</Text>
-									) : (
-										<Text style={styles.availability}>Book lent</Text>
-									)}
+										Available for lending
+									</Text>}
+									{ book.pending && !book.available &&
+									  <Text style={styles.availability}>
+										Loan request pending
+									</Text>}
+									{ !book.available && !book.pending &&
+									  <Text style={styles.availability}>
+										On loan
+									</Text>}
 								</View>
-								<View style={styles.deleteWrapper}>
-									{book.user_id === auth.currentUser?.uid ? (
+								
+								<View style={styles.deleteWrapper}>		
+									{(book.user_id === auth.currentUser?.uid) && book.available &&
 										<TouchableOpacity
 											onPress={() => {
 												deleteBook(book.id);
 											}}
-										>
-											<Ionicons name="trash-outline" style={styles.icon} />
+										><Ionicons name="trash-outline" style={styles.icon} />
 										</TouchableOpacity>
-									) : (
-										<View></View>
-									)}
+									}
+									{(book.borrower === auth.currentUser?.uid) && book.pending &&
+										<TouchableOpacity
+											onPress={() => {
+												cancelLoanRequest(book.id);
+											}}
+										><Ionicons name="trash-outline" style={styles.icon} />
+										</TouchableOpacity>
+									}
+
 								</View>
 							</TouchableOpacity>
 						</View>
