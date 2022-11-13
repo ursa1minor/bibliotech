@@ -4,6 +4,10 @@ This repo contains bibliotech - a peer-to-peer booklending app, created by North
 
 The project was created using React Native with Expo, linked to Firebase Firestore database.
 
+This repo was forked from the group repo at https://github.com/defective-pikachu/bibliotech
+
+The group project blog is linked here: https://werewallies.wordpress.com/
+
 # React Native with Expo setup:
 
 https://reactnative.dev/docs/environment-setup
